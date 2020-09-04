@@ -55,9 +55,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+
     <Compile Include="ManufacturerModels\ManufacturerCreate.cs" />
     <Compile Include="ManufacturerModels\ManufacturerEdit.cs" />
+
+
+    <Compile Include="GarageModels\CreateGarage.cs" />
+    <Compile Include="GarageModels\GarageEdit.cs" />
+    <Compile Include="GarageModels\GarageItem.cs" />
+
+    <Compile Include="CarModels\CarDetail.cs" />
+    <Compile Include="CarModels\CarCreate.cs" />
+    <Compile Include="CarModels\CarEdit.cs" />
+    <Compile Include="CarModels\CarListItem.cs" />
+
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RacingModels\RacingCreate.cs" />
+    <Compile Include="RacingModels\RacingItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -65,7 +79,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CarsModels\" />
+
     <Folder Include="GarageModels\" />
+
+    <Folder Include="ManufacturerModels\" />
+
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SpooderManCars.Data\SpooderManCars.Data.csproj">
