@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SpooderManCars.Models.CarModels
 {
-    public class CarListItem
+    public class CarItem
     {
         
         public int Id { get; set; }
