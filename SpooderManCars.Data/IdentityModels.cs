@@ -32,6 +32,12 @@ namespace SpooderManCars.Data
             return new ApplicationDbContext();
         }
 
+
+        public DbSet<Garage> Garages { get; set; }
+
+        public DbSet<Racing> Racings { get; set; }
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder

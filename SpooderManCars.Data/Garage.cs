@@ -13,7 +13,20 @@ namespace SpooderManCars.Data
         public int Id { get; set; }
         public Guid CollectorId { get; set; }
         public string Location { get; set; }
-        public ICollection<Cars> Cars { get; set; }
+        public ICollection<Cars> CarCollection { get; set; }
         public double CollectionValue { get; set; }
+
+
+        // -- For potential use later -- Make sure to refactor CollectionValue
+        //private double GetTotalValue(ICollection<Cars> cars)
+        //{
+        //    double total = 0;
+        //    foreach (Cars car in cars)
+        //    {
+        //        total += car.Value;
+        //    }
+        //    return total;
+
+        //}
     }
 }
