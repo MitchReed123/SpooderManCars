@@ -54,6 +54,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+
+    <Compile Include="GarageModels\CreateGarage.cs" />
+    <Compile Include="GarageModels\GarageEdit.cs" />
+    <Compile Include="GarageModels\GarageItem.cs" />
+
     <Compile Include="CarModels\CarDetail.cs" />
     <Compile Include="CarModels\CarCreate.cs" />
     <Compile Include="CarModels\CarEdit.cs" />
@@ -68,7 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CarsModels\" />
-    <Folder Include="GarageModels\" />
     <Folder Include="ManufacturerModels\" />
   </ItemGroup>
   <ItemGroup>
