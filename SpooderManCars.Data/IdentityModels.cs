@@ -33,13 +33,9 @@ namespace SpooderManCars.Data
         }
 
 
-        public DbSet<Manufacturer> Manufacturers { get; set; }
-
-
         public DbSet<Garage> Garages { get; set; }
 
         public DbSet<Racing> Racings { get; set; }
-
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
