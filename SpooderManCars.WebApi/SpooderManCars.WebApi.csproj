@@ -211,6 +211,7 @@
     <Compile Include="Controllers\CarController.cs" />
     <Compile Include="Controllers\GarageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManufacturerController.cs" />
     <Compile Include="Controllers\RacingController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">

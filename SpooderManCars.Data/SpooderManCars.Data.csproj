@@ -142,6 +142,7 @@
     <Content Include="obj\Debug\SpooderManCars.Data.pdb" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <ItemGroup>
