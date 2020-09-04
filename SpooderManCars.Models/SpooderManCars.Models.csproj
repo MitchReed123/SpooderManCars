@@ -9,10 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SpooderManCars.Models</RootNamespace>
     <AssemblyName>SpooderManCars.Models</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -56,10 +55,6 @@
   </ItemGroup>
   <ItemGroup>
 
-    <Compile Include="ManufacturerModels\ManufacturerCreate.cs" />
-    <Compile Include="ManufacturerModels\ManufacturerEdit.cs" />
-
-
     <Compile Include="GarageModels\CreateGarage.cs" />
     <Compile Include="GarageModels\GarageEdit.cs" />
     <Compile Include="GarageModels\GarageItem.cs" />
@@ -68,7 +63,6 @@
     <Compile Include="CarModels\CarCreate.cs" />
     <Compile Include="CarModels\CarEdit.cs" />
     <Compile Include="CarModels\CarListItem.cs" />
-
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RacingModels\RacingCreate.cs" />
     <Compile Include="RacingModels\RacingItem.cs" />
@@ -79,11 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CarsModels\" />
-
-    <Folder Include="GarageModels\" />
-
     <Folder Include="ManufacturerModels\" />
-
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SpooderManCars.Data\SpooderManCars.Data.csproj">
