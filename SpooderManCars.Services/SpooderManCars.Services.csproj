@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="GarageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RacingService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
