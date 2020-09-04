@@ -10,7 +10,9 @@ namespace SpooderManCars.Models.CarModels
 {
     public class CarCreate
     {
+        [Required]
         public int ManufacturerId { get; set; }
+        [Required]
         public int GarageId { get; set; }
 
         [Required]
