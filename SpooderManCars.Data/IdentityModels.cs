@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Runtime.ConstrainedExecution;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -34,7 +35,7 @@ namespace SpooderManCars.Data
 
 
         public DbSet<Garage> Garages { get; set; }
-
+        public DbSet<Car> Cars { get; set; }
         public DbSet<Racing> Racings { get; set; }
 
 
