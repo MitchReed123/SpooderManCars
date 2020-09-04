@@ -61,7 +61,7 @@ namespace SpooderManCars.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = ctx.Racings.Single(r => r.Id == id);
+                var entity = await ctx.Racings.SingleAsync(r => r.Id == id);
                 return
                     new Racing
                     {

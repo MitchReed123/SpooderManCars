@@ -13,7 +13,7 @@ namespace SpooderManCars.Data
         public int Id { get; set; }
         public Guid CollectorId { get; set; }
         public string Location { get; set; }
-        public ICollection<Cars> CarCollection { get; set; }
+        public ICollection<Car> CarCollection { get; set; }
         public double CollectionValue { get; set; }
 
 
