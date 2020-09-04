@@ -2,6 +2,7 @@
 using SpooderManCars.Models.CarModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,13 +22,7 @@ namespace SpooderManCars.Services
         {
             var entity = new Car()
             {
-                BasedOutOF = model.BasedOutOF,
-                Drivers = model.Drivers,
-                Manufacturer = model.Manufacturer,
-                RaceEvent = model.RaceEvent,
-                TeamName = model.TeamName,
-                Victories = model.Victories,
-                ManufacturerID = model.ManufacturerID
+                Make = model.Make
             };
 
             using (var ctx = new ApplicationDbContext())
@@ -43,14 +38,8 @@ namespace SpooderManCars.Services
 
             var racingList = entityList.Select(r => new CarItem
             {
-                Id = r.Id,
-                BasedOutOF = r.BasedOutOF,
-                Drivers = r.Drivers,
-                Manufacturer = r.Manufacturer,
-                ManufacturerID = r.ManufacturerID,
-                RaceEvent = r.RaceEvent,
-                TeamName = r.TeamName,
-                Victories = r.Victories,
+
+                Make = r.Make
             }).ToList();
 
             return racingList;
@@ -60,17 +49,11 @@ namespace SpooderManCars.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = ctx.Cars.Single(r => r.Id == id);
+                var entity = await ctx.Cars.SingleAsync(r => r.Id == id);
                 return
                     new Car
                     {
-                        BasedOutOF = entity.BasedOutOF,
-                        Drivers = entity.Drivers,
-                        Id = entity.Id,
-                        ManufacturerID = entity.ManufacturerID,
-                        RaceEvent = entity.RaceEvent,
-                        TeamName = entity.TeamName,
-                        Victories = entity.Victories
+                        Make = entity.Make
                     };
             }
         }
@@ -82,12 +65,7 @@ namespace SpooderManCars.Services
                 var entity =
                     ctx.Cars.Single(r => r.Id == model.Id);
 
-                entity.BasedOutOF = model.BasedOutOF;
-                entity.Drivers = model.Drivers;
-                entity.RaceEvent = model.RaceEvent;
-                entity.TeamName = model.TeamName;
-                entity.Victories = model.Victories;
-
+                entity.Make = model.Make;
                 return await ctx.SaveChangesAsync() == 1;
             }
         }
