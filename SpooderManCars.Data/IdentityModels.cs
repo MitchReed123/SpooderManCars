@@ -32,6 +32,8 @@ namespace SpooderManCars.Data
             return new ApplicationDbContext();
         }
 
+        public DbSet<Manufacturer> Manufacturers { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder
