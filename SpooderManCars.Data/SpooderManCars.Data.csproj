@@ -92,6 +92,10 @@
     <Compile Include="Migrations\202009041732238_Cars.Designer.cs">
       <DependentUpon>202009041732238_Cars.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009041657160_NameAddedToGarage.cs" />
+    <Compile Include="Migrations\202009041657160_NameAddedToGarage.Designer.cs">
+      <DependentUpon>202009041657160_NameAddedToGarage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

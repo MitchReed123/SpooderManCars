@@ -1,4 +1,5 @@
 ﻿using SpooderManCars.Data;
+using SpooderManCars.Models.CarModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,11 @@ namespace SpooderManCars.Models
 {
     public class GarageItem
     {
-        // Add Name of Collector?
         public int Id { get; set; }
+        public string Name { get; set; }
+
         public string Location { get; set; }
-        public ICollection<Car> CarCollection { get; set; }
+        public IEnumerable<CarItem> CarCollection { get; set; }
         public double CollectionValue { get; set; }
     }
 }
