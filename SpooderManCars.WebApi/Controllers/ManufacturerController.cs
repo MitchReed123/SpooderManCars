@@ -32,7 +32,7 @@ namespace SpooderManCars.WebApi.Controllers
             return Ok(manufacturers);
         }
 
-        public IHttpActionResult Post(Manufacturer manufacturer)
+        public IHttpActionResult Post(ManufacturerCreate manufacturer)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

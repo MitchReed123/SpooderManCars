@@ -88,6 +88,15 @@
     <Compile Include="Garage.cs" />
     <Compile Include="IdentityModels.cs" />
     <Compile Include="Manufacturer.cs" />
+    <Compile Include="Migrations\202009081337276_NewManufacturerReqs.cs" />
+    <Compile Include="Migrations\202009081337276_NewManufacturerReqs.Designer.cs">
+      <DependentUpon>202009081337276_NewManufacturerReqs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202009041657160_NameAddedToGarage.cs" />
+    <Compile Include="Migrations\202009041657160_NameAddedToGarage.Designer.cs">
+      <DependentUpon>202009041657160_NameAddedToGarage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Racing.cs" />
@@ -137,8 +146,12 @@
     <Content Include="obj\Debug\SpooderManCars.Data.pdb" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Migrations\" />
     <Folder Include="obj\Debug\TempPE\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202009081337276_NewManufacturerReqs.resx">
+      <DependentUpon>202009081337276_NewManufacturerReqs.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
