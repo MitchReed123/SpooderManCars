@@ -1,6 +1,7 @@
 ﻿using SpooderManCars.Data;
 using SpooderManCars.Models;
 using SpooderManCars.Models.GarageModels;
+using SpooderManCars.Models.CarModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace SpooderManCars.Services
             var entity = new Garage()
             {
                 CollectorId = _userId,
+                Name = model.Name,
                 Location = model.Location,
                 CollectionValue = model.CollectionValue
             };
@@ -38,19 +40,20 @@ namespace SpooderManCars.Services
                 .Select(g => new GarageItem
                 {
                     Id = g.Id,
+                    Name = g.Name,
                     Location = g.Location,
                     CollectionValue = g.CollectionValue,
-                    CarCollection = g.CarCollection.Select(r=> new Models.CarModels.CarItem
+                    CarCollection = g.CarCollection.Select(c => new CarItem
                     {
-                            Id = r.Id,
-                            ManufacturerId = r.ManufacturerId,
-                            GarageId = r.GarageId,
-                            OwnerID = r.OwnerID,
-                            Make = r.Make,
-                            Model = r.Model,
-                            Year = r.Year,
-                            CarType = r.CarType,
-                            Transmission = r.Transmission
+                        Id = c.Id,
+                        ManufacturerId = c.ManufacturerId,
+                        GarageId = c.GarageId,
+                        OwnerID = c.OwnerID,
+                        Make = c.Make,
+                        Model = c.Model,
+                        Year = c.Year,
+                        CarType = c.CarType,
+                        Transmission = c.Transmission
                     })
                 });
             return query.ToArray();
@@ -62,19 +65,20 @@ namespace SpooderManCars.Services
                 .Select(g => new GarageItem
                 {
                     Id = g.Id,
+                    Name = g.Name,
                     Location = g.Location,
                     CollectionValue = g.CollectionValue,
-                    CarCollection = g.CarCollection.Select(r => new Models.CarModels.CarItem
+                    CarCollection = g.CarCollection.Select(c => new CarItem
                     {
-                        Id = r.Id,
-                        ManufacturerId = r.ManufacturerId,
-                        GarageId = r.GarageId,
-                        OwnerID = r.OwnerID,
-                        Make = r.Make,
-                        Model = r.Model,
-                        Year = r.Year,
-                        CarType = r.CarType,
-                        Transmission = r.Transmission
+                        Id = c.Id,
+                        ManufacturerId = c.ManufacturerId,
+                        GarageId = c.GarageId,
+                        OwnerID = c.OwnerID,
+                        Make = c.Make,
+                        Model = c.Model,
+                        Year = c.Year,
+                        CarType = c.CarType,
+                        Transmission = c.Transmission
                     })
                 });
             return query.ToArray();
@@ -85,6 +89,7 @@ namespace SpooderManCars.Services
             var entity = _context.Garages.Single(g => g.Id == model.Id && g.CollectorId == _userId);
             entity.Location = model.Location;
             entity.CollectionValue = model.CollectionValue;
+            entity.Name = model.Name;
 
             return _context.SaveChanges() == 1;
         }
