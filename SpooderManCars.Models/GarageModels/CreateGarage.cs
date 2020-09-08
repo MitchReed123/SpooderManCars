@@ -12,6 +12,5 @@ namespace SpooderManCars.Models
     {
         public string Name { get; set; }
         public string Location { get; set; }
-        public double CollectionValue { get; set; }
     }
 }

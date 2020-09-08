@@ -25,5 +25,7 @@ namespace SpooderManCars.Models.CarModels
         public CarType CarType { get; set; }
         [Required]
         public string Transmission { get; set; }
+        [Required]
+        public decimal CarValue { get; set; }
     }
 }
