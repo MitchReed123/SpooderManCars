@@ -25,49 +25,49 @@ namespace SpooderManCars.WebApi.Controllers
             return manufacturerService;
         }
 
-        public IHttpActionResult Get()
+        public async Task<IHttpActionResult> Get()
         {
             ManufacturerService manufacturerService = CreateManufacturerService();
-            var manufacturers = manufacturerService.GetManufacturer();
+            var manufacturers = await manufacturerService.GetManufacturer();
             return Ok(manufacturers);
         }
 
-        public IHttpActionResult Post(ManufacturerCreate manufacturer)
+        public async Task<IHttpActionResult> PostAsync(ManufacturerCreate manufacturer)
         {
+            var service = CreateManufacturerService();
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var service = CreateManufacturerService();
 
-            if (!service.CreateManufacturer(manufacturer))
+            if (!(await service.CreateManufacturer(manufacturer)))
                 return InternalServerError();
 
             return Ok(manufacturer);
         }
 
-        public IHttpActionResult Get(int id)
+        public async Task<IHttpActionResult> Get(int id)
         {
             ManufacturerService manufacturerService = CreateManufacturerService();
-            var manufacturer = manufacturerService.GetManufacturerById(id);
+            var manufacturer = await manufacturerService.GetManufacturerById(id);
             return Ok(manufacturer);
         }
 
-        public IHttpActionResult Put(ManufacturerEdit manufacturer)
+        public async Task<IHttpActionResult> Put(ManufacturerEdit manufacturer)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             var service = CreateManufacturerService();
 
-            if (!service.UpdateManufacturer(manufacturer))
+            if (!(await service.UpdateManufacturer(manufacturer)))
                 return InternalServerError();
 
             return Ok(manufacturer);
         }
 
-        public IHttpActionResult Delete (int id)
+        public async Task<IHttpActionResult> Delete (int id)
         {
             var service = CreateManufacturerService();
-            if (!service.DeleteManufacturer(id))
+            if (!(await service.DeleteManufacturer(id)))
                 return InternalServerError();
             return Ok();
         }
