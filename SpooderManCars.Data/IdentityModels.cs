@@ -37,7 +37,7 @@ namespace SpooderManCars.Data
         public DbSet<Garage> Garages { get; set; }
         public DbSet<Car> Cars { get; set; }
         public DbSet<Racing> Racings { get; set; }
-
+        public DbSet<Manufacturer> Manufacturers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

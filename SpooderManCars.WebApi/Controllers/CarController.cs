@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security.Provider;
 using SpooderManCars.Data;
 using SpooderManCars.Models.CarModels;
 using SpooderManCars.Models.RacingModels;
@@ -16,89 +17,53 @@ namespace SpooderManCars.WebApi.Controllers
 {
     public class CarController : ApiController
     {
-        private readonly ApplicationDbContext _content = new ApplicationDbContext();
-
         private CarService CreateCarService()
         {
             var userId = Guid.Parse(User.Identity.GetUserId());
-            var raceService = new CarService(userId);
-            return raceService;
-        }
-        [HttpGet]
-        public async Task<IHttpActionResult> GetAllTeams()
-        {
-            List<Car> racings = await _content.Cars.ToListAsync();
-            return Ok(racings);
+            var carService = new CarService(userId);
+            return carService;
         }
         [HttpPost]
-        public async Task<IHttpActionResult> PostAsync(CarCreate race)
+        public async Task<IHttpActionResult> PostAsync(CarCreate car)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var service = CreateCarService();
-
-
-            await service.CreateATeam(race);
-            await _content.SaveChangesAsync();
-            return Ok(race);
-
-
+            await CreateCarService().CreateACar(car);
+            return Ok(car);
         }
         [HttpGet]
-        public async Task<IHttpActionResult> GetCars(int id)
+        public async Task<IHttpActionResult> GetCars()
         {
-            var service = CreateCarService();
-
-            List<Car> racings = await _content.Cars.ToListAsync();
-
-            foreach (Car item in racings)
-            {
-                if (item.Id == id)
-                {
-                    await service.GetTeamById(id);
-                    return Ok();
-                }
-            }
+            var cars = await CreateCarService().GetCars();
+            return Ok(cars);
+        }
+        [HttpGet]
+        public async Task<IHttpActionResult> GetCarById(int id)
+        {
+            var car = await CreateCarService().GetCarById(id);
+            if (car != null) { return Ok(car); }
 
             return NotFound();
 
         }
         [HttpPut]
-        public async Task<IHttpActionResult> UpdateTeams([FromUri] int id, [FromBody] Car model)
+        public async Task<IHttpActionResult> PutCar(CarEdit car)
         {
-            if (ModelState.IsValid)
-            {
-                Car racing = await _content.Cars.FindAsync(id);
-                var service = CreateCarService();
+            if (!ModelState.IsValid)
+            { return BadRequest(); }
 
-
-                if (racing != null)
-                {
-                    await service.UpdateTeam(model);
-                    return Ok(model);
-                }
-
-            }
-            return BadRequest();
+            if (!(await CreateCarService().UpdateCar(car)))
+                return InternalServerError();
+            return Ok();
 
         }
         [HttpDelete]
-        public async Task<IHttpActionResult> DeleteTeams([FromUri] int id)
+        public async Task<IHttpActionResult> DeleteCar(int id)
         {
-            Car racing = await _content.Cars.FindAsync(id);
-            var service = CreateCarService();
-            if (racing != null)
-            {
-                await service.DeleteTeam(id);
-            }
-
-            if (await _content.SaveChangesAsync() == 1)
-            {
-                return Ok();
-            }
-
-            return InternalServerError();
+            if (!(await CreateCarService().DeleteCar(id)))
+            { return InternalServerError();}
+            return Ok();
         }
     }
 }

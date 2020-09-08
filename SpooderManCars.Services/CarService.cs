@@ -11,18 +11,25 @@ namespace SpooderManCars.Services
 {
     public class CarService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context = new ApplicationDbContext();
         private readonly Guid _userId;
         public CarService(Guid UserId)
         {
             _userId = UserId;
         }
 
-        public async Task<bool> CreateATeam(CarCreate model)
+        public async Task<bool> CreateACar(CarCreate model)
         {
             var entity = new Car()
             {
-                Make = model.Make
+                OwnerID = _userId,
+                ManufacturerId = model.ManufacturerId,
+                GarageId = model.GarageId,
+                Make = model.Make,
+                Model = model.Model,
+                Year = model.Year,
+                CarType = model.CarType,
+                Transmission = model.Transmission
             };
 
             using (var ctx = new ApplicationDbContext())
@@ -32,20 +39,24 @@ namespace SpooderManCars.Services
             }
         }
 
-        public async Task<List<CarItem>> GetRaces()
+        public async Task<IEnumerable<CarItem>> GetCars()
         {
-            var entityList = await _context.Cars.ToListAsync();
-
-            var racingList = entityList.Select(r => new CarItem
-            {
-
-                Make = r.Make
-            }).ToList();
-
-            return racingList;
+                var carList = await _context.Cars.Where(r => r.OwnerID == _userId).Select(r => new CarItem
+                {
+                    Id = r.Id,
+                    ManufacturerId = r.ManufacturerId,
+                    GarageId = r.GarageId,
+                    OwnerID = r.OwnerID,
+                    Make = r.Make,
+                    Model = r.Model,
+                    Year = r.Year,
+                    CarType = r.CarType,
+                    Transmission = r.Transmission
+                }).ToListAsync();
+            return carList;
         }
 
-        public async Task<Car> GetTeamById(int id)
+        public async Task<Car> GetCarById(int id)
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -53,31 +64,43 @@ namespace SpooderManCars.Services
                 return
                     new Car
                     {
-                        Make = entity.Make
+                        Id = entity.Id,
+                        ManufacturerId = entity.ManufacturerId,
+                        GarageId = entity.GarageId,
+                        OwnerID = entity.OwnerID,
+                        Make = entity.Make,
+                        Model = entity.Model,
+                        Year = entity.Year,
+                        CarType = entity.CarType,
+                        Transmission = entity.Transmission
                     };
             }
         }
 
-        public async Task<bool> UpdateTeam(Car model)
+        public async Task<bool> UpdateCar(CarEdit model)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var entity =
-                    ctx.Cars.Single(r => r.Id == model.Id);
-
+                    ctx.Cars.Single(r => r.Id == model.Id && r.OwnerID == _userId);
+                entity.ManufacturerId = model.ManufacturerId;
+                entity.GarageId = model.GarageId;
                 entity.Make = model.Make;
+                entity.Model = model.Model;
+                entity.Year = model.Year;
+                entity.CarType = model.CarType;
+                entity.Transmission = model.Transmission;
                 return await ctx.SaveChangesAsync() == 1;
             }
         }
 
-        public async Task<bool> DeleteTeam(int id)
+        public async Task<bool> DeleteCar(int id)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var entity =
-                    ctx.Cars.Single(r => r.Id == id);
+                    ctx.Cars.Single(r => r.Id == id && r.OwnerID == _userId);
                 ctx.Cars.Remove(entity);
-
                 return await ctx.SaveChangesAsync() == 1;
             }
         }
