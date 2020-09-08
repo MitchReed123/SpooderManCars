@@ -29,7 +29,8 @@ namespace SpooderManCars.Services
                 Model = model.Model,
                 Year = model.Year,
                 CarType = model.CarType,
-                Transmission = model.Transmission
+                Transmission = model.Transmission,
+                CarValue = model.CarValue,
             };
 
             using (var ctx = new ApplicationDbContext())
@@ -51,7 +52,8 @@ namespace SpooderManCars.Services
                     Model = r.Model,
                     Year = r.Year,
                     CarType = r.CarType,
-                    Transmission = r.Transmission
+                    Transmission = r.Transmission,
+                    CarValue = r.CarValue,
                 }).ToListAsync();
             return carList;
         }
@@ -72,7 +74,8 @@ namespace SpooderManCars.Services
                         Model = entity.Model,
                         Year = entity.Year,
                         CarType = entity.CarType,
-                        Transmission = entity.Transmission
+                        Transmission = entity.Transmission,
+                        CarValue = entity.CarValue,
                     };
             }
         }
@@ -90,6 +93,7 @@ namespace SpooderManCars.Services
                 entity.Year = model.Year;
                 entity.CarType = model.CarType;
                 entity.Transmission = model.Transmission;
+                entity.CarValue = model.CarValue;
                 return await ctx.SaveChangesAsync() == 1;
             }
         }
