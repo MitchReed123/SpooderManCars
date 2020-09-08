@@ -9,7 +9,7 @@ namespace SpooderManCars.Data.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(SpooderManCars.Data.ApplicationDbContext context)

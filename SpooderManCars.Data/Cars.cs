@@ -34,6 +34,8 @@ namespace SpooderManCars.Data
         public CarType CarType { get; set; }
         [Required]
         public string Transmission { get; set; }
+        [Required]
+        public decimal CarValue { get; set; }
     }
 
     public enum CarType
