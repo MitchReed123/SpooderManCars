@@ -88,13 +88,17 @@
     <Compile Include="Garage.cs" />
     <Compile Include="IdentityModels.cs" />
     <Compile Include="Manufacturer.cs" />
-    <Compile Include="Migrations\202009081337276_NewManufacturerReqs.cs" />
-    <Compile Include="Migrations\202009081337276_NewManufacturerReqs.Designer.cs">
-      <DependentUpon>202009081337276_NewManufacturerReqs.cs</DependentUpon>
+    <Compile Include="Migrations\202009081801009_CarValue.cs" />
+    <Compile Include="Migrations\202009081801009_CarValue.Designer.cs">
+      <DependentUpon>202009081801009_CarValue.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202009041657160_NameAddedToGarage.cs" />
-    <Compile Include="Migrations\202009041657160_NameAddedToGarage.Designer.cs">
-      <DependentUpon>202009041657160_NameAddedToGarage.cs</DependentUpon>
+    <Compile Include="Migrations\202009081855596_Ellclkaje.cs" />
+    <Compile Include="Migrations\202009081855596_Ellclkaje.Designer.cs">
+      <DependentUpon>202009081855596_Ellclkaje.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202009081936206_Jellin.cs" />
+    <Compile Include="Migrations\202009081936206_Jellin.Designer.cs">
+      <DependentUpon>202009081936206_Jellin.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
@@ -149,8 +153,14 @@
     <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202009081337276_NewManufacturerReqs.resx">
-      <DependentUpon>202009081337276_NewManufacturerReqs.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202009081801009_CarValue.resx">
+      <DependentUpon>202009081801009_CarValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009081855596_Ellclkaje.resx">
+      <DependentUpon>202009081855596_Ellclkaje.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009081936206_Jellin.resx">
+      <DependentUpon>202009081936206_Jellin.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
