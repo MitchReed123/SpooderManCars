@@ -62,6 +62,7 @@
     <Compile Include="CarModels\CarEdit.cs" />
     <Compile Include="CarModels\CarListItem.cs" />
     <Compile Include="ManufacturerModels\ManufacturerCreate.cs" />
+    <Compile Include="ManufacturerModels\ManufacturerDetail.cs" />
     <Compile Include="ManufacturerModels\ManufacturerEdit.cs" />
     <Compile Include="ManufacturerModels\ManufacturerListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
