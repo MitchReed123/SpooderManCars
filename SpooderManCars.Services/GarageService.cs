@@ -40,7 +40,18 @@ namespace SpooderManCars.Services
                     Id = g.Id,
                     Location = g.Location,
                     CollectionValue = g.CollectionValue,
-                    CarCollection = g.CarCollection
+                    CarCollection = g.CarCollection.Select(r=> new Models.CarModels.CarItem
+                    {
+                            Id = r.Id,
+                            ManufacturerId = r.ManufacturerId,
+                            GarageId = r.GarageId,
+                            OwnerID = r.OwnerID,
+                            Make = r.Make,
+                            Model = r.Model,
+                            Year = r.Year,
+                            CarType = r.CarType,
+                            Transmission = r.Transmission
+                    })
                 });
             return query.ToArray();
         }
@@ -53,7 +64,18 @@ namespace SpooderManCars.Services
                     Id = g.Id,
                     Location = g.Location,
                     CollectionValue = g.CollectionValue,
-                    CarCollection = g.CarCollection
+                    CarCollection = g.CarCollection.Select(r => new Models.CarModels.CarItem
+                    {
+                        Id = r.Id,
+                        ManufacturerId = r.ManufacturerId,
+                        GarageId = r.GarageId,
+                        OwnerID = r.OwnerID,
+                        Make = r.Make,
+                        Model = r.Model,
+                        Year = r.Year,
+                        CarType = r.CarType,
+                        Transmission = r.Transmission
+                    })
                 });
             return query.ToArray();
         }
