@@ -47,7 +47,6 @@ namespace SpooderManCars.Services
                     {
                         Id = c.Id,
                         ManufacturerId = c.ManufacturerId,
-                        GarageId = c.GarageId,
                         Make = c.Make,
                         Model = c.Model,
                         Year = c.Year,
