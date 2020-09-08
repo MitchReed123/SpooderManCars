@@ -58,6 +58,7 @@ namespace SpooderManCars.WebApi.Models
         [Display(Name = "Full Name")]
         public string FullName => $"{FirstName} {LastName}";
 
+
     }
 
     public class RegisterExternalBindingModel

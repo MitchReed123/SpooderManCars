@@ -88,13 +88,9 @@
     <Compile Include="Garage.cs" />
     <Compile Include="IdentityModels.cs" />
     <Compile Include="Manufacturer.cs" />
-    <Compile Include="Migrations\202009031412042_FirstMigration.cs" />
-    <Compile Include="Migrations\202009031412042_FirstMigration.Designer.cs">
-      <DependentUpon>202009031412042_FirstMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202009031827442_InitialGarage.cs" />
-    <Compile Include="Migrations\202009031827442_InitialGarage.Designer.cs">
-      <DependentUpon>202009031827442_InitialGarage.cs</DependentUpon>
+    <Compile Include="Migrations\202009041732238_Cars.cs" />
+    <Compile Include="Migrations\202009041732238_Cars.Designer.cs">
+      <DependentUpon>202009041732238_Cars.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\202009041657160_NameAddedToGarage.cs" />
     <Compile Include="Migrations\202009041657160_NameAddedToGarage.Designer.cs">
@@ -114,18 +110,6 @@
     <None Include="obj\Debug\SpooderManCars.Data.csproj.GenerateResource.cache" />
     <None Include="obj\Debug\SpooderManCars.Data.csprojAssemblyReference.cache" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202009031412042_FirstMigration.resx">
-      <DependentUpon>202009031412042_FirstMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202009031827442_InitialGarage.resx">
-      <DependentUpon>202009031827442_InitialGarage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202009041657160_NameAddedToGarage.resx">
-      <DependentUpon>202009041657160_NameAddedToGarage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="obj\Debug\SpooderManCars.Data.Migrations.FirstMigration.resources" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Debug\EntityFramework.dll" />
@@ -162,7 +146,13 @@
     <Content Include="obj\Debug\SpooderManCars.Data.pdb" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="obj\Debug\TempPE\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202009041732238_Cars.resx">
+      <DependentUpon>202009041732238_Cars.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
