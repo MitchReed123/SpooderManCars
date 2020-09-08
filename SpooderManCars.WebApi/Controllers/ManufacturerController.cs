@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using SpooderManCars.Data;
+using SpooderManCars.Models.ManufacturerModels;
 using SpooderManCars.Services;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace SpooderManCars.WebApi.Controllers
             return Ok(manufacturers);
         }
 
-        public IHttpActionResult Post(Manufacturer manufacturer)
+        public IHttpActionResult Post(ManufacturerCreate manufacturer)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

@@ -1,4 +1,6 @@
 ﻿using SpooderManCars.Data;
+using SpooderManCars.Models.CarModels;
+using SpooderManCars.Models.ManufacturerModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace SpooderManCars.Services
 {
     public class ManufacturerService
     {
-            public bool CreateManufacturer(Manufacturer model)
+            public bool CreateManufacturer(ManufacturerCreate model)
             {
                 var entity = new Manufacturer()
                 {
@@ -25,18 +27,28 @@ namespace SpooderManCars.Services
                 }
             }
 
-            public List<Manufacturer> GetManufacturer()
+            public List<ManufacturerListItem> GetManufacturer()
             {
                 using (var ctx = new ApplicationDbContext())
                 {
                     var query = ctx.Manufacturers.Select(
                         e =>
-                        new Manufacturer
+                        new ManufacturerListItem
                         {
                             Id = e.Id,
                             CompanyName = e.CompanyName,
                             Locations = e.Locations,
-                            Cars = e.Cars,
+                            Cars = e.Cars.Select(r=> new CarItem {
+                                Id = r.Id,
+                                ManufacturerId = r.ManufacturerId,
+                                GarageId = r.GarageId,
+                                OwnerID = r.OwnerID,
+                                Make = r.Make,
+                                Model = r.Model,
+                                Year = r.Year,
+                                CarType = r.CarType,
+                                Transmission = r.Transmission
+                            }),
                             Founded = e.Founded
                         }
                         );

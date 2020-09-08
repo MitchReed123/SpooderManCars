@@ -11,7 +11,7 @@ namespace SpooderManCars.Services
 {
     public class CarService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context = new ApplicationDbContext();
         private readonly Guid _userId;
         public CarService(Guid UserId)
         {
@@ -41,23 +41,18 @@ namespace SpooderManCars.Services
 
         public async Task<IEnumerable<CarItem>> GetCars()
         {
-            var entityList = await _context.Cars.ToListAsync();
-
-            var carList = entityList.Where(r => r.OwnerID == _userId).Select(r => new CarItem
-            {
-                Id = r.Id,
-                ManufacturerId = r.ManufacturerId,
-                Manufacturer = r.Manufacturer,
-                GarageId = r.GarageId,
-                Garage = r.Garage,
-                OwnerID = r.OwnerID,
-                Make = r.Make,
-                Model = r.Model,
-                Year = r.Year,
-                CarType = r.CarType,
-                Transmission = r.Transmission
-            }).ToList();
-
+                var carList = await _context.Cars.Where(r => r.OwnerID == _userId).Select(r => new CarItem
+                {
+                    Id = r.Id,
+                    ManufacturerId = r.ManufacturerId,
+                    GarageId = r.GarageId,
+                    OwnerID = r.OwnerID,
+                    Make = r.Make,
+                    Model = r.Model,
+                    Year = r.Year,
+                    CarType = r.CarType,
+                    Transmission = r.Transmission
+                }).ToListAsync();
             return carList;
         }
 
@@ -71,9 +66,7 @@ namespace SpooderManCars.Services
                     {
                         Id = entity.Id,
                         ManufacturerId = entity.ManufacturerId,
-                        Manufacturer = entity.Manufacturer,
                         GarageId = entity.GarageId,
-                        Garage = entity.Garage,
                         OwnerID = entity.OwnerID,
                         Make = entity.Make,
                         Model = entity.Model,
