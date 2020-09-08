@@ -62,7 +62,7 @@ namespace SpooderManCars.Services
             }
         }
 
-        public ManufacturerDetail GetManufacturerById(int id)
+        public ManufacturerListItem GetManufacturerById(int id)
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -71,10 +71,24 @@ namespace SpooderManCars.Services
                         .Manufacturers
                         .Single(e => e.Id == id);
                 return
-                    new ManufacturerDetail
+                    new ManufacturerListItem
                     {
                         Id = entity.Id,
-                        CompanyName = entity.CompanyName
+                        CompanyName = entity.CompanyName,
+                        Locations = entity.Locations,
+                        Cars = entity.Cars.Select(r => new CarItem
+                        {
+                            Id = r.Id,
+                            ManufacturerId = r.ManufacturerId,
+                            GarageId = r.GarageId,
+                            OwnerID = r.OwnerID,
+                            Make = r.Make,
+                            Model = r.Model,
+                            Year = r.Year,
+                            CarType = r.CarType,
+                            Transmission = r.Transmission
+                        }),
+                        Founded = entity.Founded
                     };
             }
         }
@@ -87,11 +101,13 @@ namespace SpooderManCars.Services
                 var entity =
                     ctx
                         .Manufacturers
-                        .Single(e => e.Id == model.Id && e.CompanyName == model.CompanyName);
+                        .Single(e => e.Id == model.Id);
 
 
                 entity.Id = model.Id;
                 entity.CompanyName = model.CompanyName;
+                entity.Locations = model.Locations;
+                entity.Founded = model.Founded;
 
                 return ctx.SaveChanges() == 1;
             }

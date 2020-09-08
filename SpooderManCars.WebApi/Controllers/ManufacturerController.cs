@@ -42,7 +42,7 @@ namespace SpooderManCars.WebApi.Controllers
             if (!service.CreateManufacturer(manufacturer))
                 return InternalServerError();
 
-            return Ok();
+            return Ok(manufacturer);
         }
 
         public IHttpActionResult Get(int id)
@@ -61,7 +61,7 @@ namespace SpooderManCars.WebApi.Controllers
             if (!service.UpdateManufacturer(manufacturer))
                 return InternalServerError();
 
-            return Ok();
+            return Ok(manufacturer);
         }
 
         public IHttpActionResult Delete (int id)

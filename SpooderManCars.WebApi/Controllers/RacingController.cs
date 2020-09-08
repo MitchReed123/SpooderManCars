@@ -90,10 +90,6 @@ namespace SpooderManCars.WebApi.Controllers
             if (racing != null)
             {
                 await service.DeleteTeam(id);
-            }
-
-            if (await _content.SaveChangesAsync() == 1)
-            {
                 return Ok();
             }
 
