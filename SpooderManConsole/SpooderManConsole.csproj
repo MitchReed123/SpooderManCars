@@ -58,6 +58,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SpooderManCars.Data\SpooderManCars.Data.csproj">
+      <Project>{D06FA545-2335-4AFA-A5AF-F4AD3BDCBF53}</Project>
+      <Name>SpooderManCars.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SpooderManCars.Models\SpooderManCars.Models.csproj">
       <Project>{8E2C997A-1781-4C5A-A3F7-A39517E764CA}</Project>
       <Name>SpooderManCars.Models</Name>

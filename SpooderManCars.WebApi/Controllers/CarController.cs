@@ -51,11 +51,11 @@ namespace SpooderManCars.WebApi.Controllers
         public async Task<IHttpActionResult> PutCar(CarEdit car)
         {
             if (!ModelState.IsValid)
-            { return BadRequest(ModelState); }
+            { return BadRequest(); }
 
             if (!(await CreateCarService().UpdateCar(car)))
                 return InternalServerError();
-            return Ok();
+            return Ok(car);
 
         }
         [HttpDelete]

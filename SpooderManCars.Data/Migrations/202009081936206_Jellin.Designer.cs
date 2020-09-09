@@ -7,18 +7,18 @@ namespace SpooderManCars.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.0-30225")]
-    public sealed partial class TestingThis : IMigrationMetadata
+    public sealed partial class Jellin : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(TestingThis));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Jellin));
         
         string IMigrationMetadata.Id
         {
-            get { return "202009081915389_TestingThis"; }
+            get { return "202009081936206_Jellin"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return null; }
+            get { return Resources.GetString("Source"); }
         }
         
         string IMigrationMetadata.Target

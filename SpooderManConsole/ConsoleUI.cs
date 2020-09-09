@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using SpooderManCars.Models.CarModels;
 using System;
 using System.Collections.Generic;
@@ -8,6 +8,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Net.Http.Formatting;
+using SpooderManCars.Models.ManufacturerModels;
 
 namespace SpooderManConsole
 {
@@ -19,7 +21,6 @@ namespace SpooderManConsole
         public int localHost = 44336;
         private static string authToken;
         private static string _token;
-        //for git
         public void Run()
         {
             Menu();
@@ -207,7 +208,6 @@ namespace SpooderManConsole
                 Console.WriteLine("Nope ");
             }
         }
-
         public void ViewAllCars() //Get
         {
             Console.Clear();
@@ -222,7 +222,6 @@ namespace SpooderManConsole
                 List<CarItem> cars = httpClient.GetAsync($"https://localhost:{localHost}/api/Car/").Result.Content.ReadAsAsync<List<CarItem>>().Result;
                 foreach (CarItem car in cars)
                 {
-
                     Console.WriteLine($"{car.Id} {car.Make} {car.Model} {car.Year} {car.Transmission}");
                 }
             }
@@ -262,15 +261,12 @@ namespace SpooderManConsole
             Console.Write("Garage Id: ");
             string garageId = GetSafeInterger().ToString();
             newRest.Add("GarageId", garageId);
-
             Console.Write("Car make: ");
             string make = Console.ReadLine();
             newRest.Add("Make", make);
-
             Console.Write("Car model: ");
             string model = Console.ReadLine();
             newRest.Add("Model", model);
-
             Console.Write("Year: ");
             string year = Console.ReadLine();
             newRest.Add("Year", year);
@@ -334,7 +330,6 @@ namespace SpooderManConsole
             Console.Write("Car make: ");
             string make = Console.ReadLine();
             newCar.Add("Make", make);
-
             Console.Write("Car model: ");
             string model = Console.ReadLine();
             newCar.Add("Model", model);
