@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C1DD4FAA-554A-446D-8894-F0072AEF7601}</ProjectGuid>
+    <ProjectGuid>{9634FD47-76ED-473C-82FE-568F4C3C8749}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>SpooderManConsole</RootNamespace>
     <AssemblyName>SpooderManConsole</AssemblyName>
