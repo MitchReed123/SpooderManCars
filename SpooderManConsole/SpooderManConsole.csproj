@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E5289B4C-B00A-4DFF-9FE1-E79CBF152B0E}</ProjectGuid>
+    <ProjectGuid>{9634FD47-76ED-473C-82FE-568F4C3C8749}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>SpooderManCars.UI</RootNamespace>
-    <AssemblyName>SpooderManCars.UI</AssemblyName>
+    <RootNamespace>SpooderManConsole</RootNamespace>
+    <AssemblyName>SpooderManConsole</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -58,10 +58,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SpooderManCars.Data\SpooderManCars.Data.csproj">
-      <Project>{D06FA545-2335-4AFA-A5AF-F4AD3BDCBF53}</Project>
-      <Name>SpooderManCars.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SpooderManCars.Models\SpooderManCars.Models.csproj">
       <Project>{8E2C997A-1781-4C5A-A3F7-A39517E764CA}</Project>
       <Name>SpooderManCars.Models</Name>
