@@ -84,10 +84,10 @@ namespace SpooderManConsole
                 "5. Look up a Manufacturer\n" +
                 "6. Look up a Car\n" +
                 "7. Look up a Racing Team\n" +
-                "2. Create a Manufacturer\n" +
-                "3. Update a Manufacturer\n" +
-                "4. Delete a Manufactuerer\n" +
-                "5. View all\n" +
+                "8. Create a Manufacturer\n" +
+                "9. Update a Manufacturer\n" +
+                "10. Delete a Manufactuerer\n" +
+                "11. View all\n" +
                 "18. Exit");
             return Console.ReadLine();
         }
@@ -96,6 +96,7 @@ namespace SpooderManConsole
             switch (input)
             {
                 case "1":
+                    ViewAllManufacturer();
                     break;
                 case "2":
                     ViewAllCars();
@@ -107,15 +108,26 @@ namespace SpooderManConsole
                     UpdateACar();
                     break;
                 case "5":
+
+                  
+
                     DeleteACar();
+
                     break;
                 case "6":
                     break;
                 case "7":
                 case "8":
+                    AddAManfacturer();
+                    break;
                 case "9":
+                    UpdateAManufacturer();
+                    break;
                 case "10":
+                    DeleteAManufacturer();
+                    break;
                 case "11":
+                    ViewAManufacturer();
                     break;
                 case "12":
                     break;
@@ -379,23 +391,63 @@ namespace SpooderManConsole
             else { Console.WriteLine("Invalid ID"); }
             Console.ReadKey();
         }
+        public void ViewAllManufacturer() //Get
+        {
+            Console.Clear();
+            Console.Write("Connecting.....");
 
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Manufacturer/");
+              HttpResponseMessage response = getTask.Result;
+            if (response.IsSuccessStatusCode)
+            {
+                Console.Clear();
+                              List<ManufacturerListItem> manufacturers = httpClient.GetAsync($"https://localhost:{localHost}/api/Manufacturer/").Result.Content.ReadAsAsync<List<ManufacturerListItem>>().Result;
+                foreach (ManufacturerListItem manufacturer in manufacturers)
+                {
+
+                    Console.WriteLine($" {manufacturer.Id} {manufacturer.CompanyName} {manufacturer.Locations} {manufacturer.Founded}");
+                                  }
+            }
+            Console.ReadKey();
+        }
         public void ViewAllGarages() //Get
         {
             Console.Clear();
             Console.Write("Spoodering.....");
 
             Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Garage/");
-            HttpResponseMessage response = getTask.Result;
+              HttpResponseMessage response = getTask.Result;
             if (response.IsSuccessStatusCode)
             {
                 Console.Clear();
-                List<GarageItem> garages = httpClient.GetAsync($"https://localhost:{localHost}/api/Garage/").Result.Content.ReadAsAsync<List<GarageItem>>().Result;
+                              List<GarageItem> garages = httpClient.GetAsync($"https://localhost:{localHost}/api/Garage/").Result.Content.ReadAsAsync<List<GarageItem>>().Result;
                 foreach (GarageItem garage in garages)
                 {
 
                     Console.WriteLine($" {garage.Id} {garage.Name} {garage.Location} {garage.CollectionValue}");
-                }
+                                  }
+            }
+            Console.ReadKey();
+        }
+
+        public void ViewAManufacturer() //Get/{id}
+        {
+            Console.Clear();
+            Console.WriteLine("Enter manufacturer ID");
+            int id = GetSafeInterger();
+            Console.Write("Connecting.....");
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Manufacturer/");
+              HttpResponseMessage response = getTask.Result;
+            if (response.IsSuccessStatusCode)
+            {
+                Console.Clear();
+                              ManufacturerListItem manufacturer = httpClient.GetAsync($"https://localhost:{localHost}/api/Manufacturer/{id}").Result.Content.ReadAsAsync<ManufacturerListItem>().Result;
+                if (manufacturer != null)
+                {
+                    Console.WriteLine($" {manufacturer.Id} {manufacturer.CompanyName} {manufacturer.Locations} {manufacturer.Founded}");
+                                  }
+                else { Console.WriteLine("Invalid ID"); }
+
             }
             Console.ReadKey();
         }
@@ -406,25 +458,59 @@ namespace SpooderManConsole
             int id = GetSafeInterger();
             Console.Write("Connecting.....");
             Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Garage/");
-            HttpResponseMessage response = getTask.Result;
+              HttpResponseMessage response = getTask.Result;
             if (response.IsSuccessStatusCode)
             {
                 Console.Clear();
-                GarageItem garage = httpClient.GetAsync($"https://localhost:{localHost}/api/Garage/{id}").Result.Content.ReadAsAsync<GarageItem>().Result;
+                              GarageItem garage = httpClient.GetAsync($"https://localhost:{localHost}/api/Garage/{id}").Result.Content.ReadAsAsync<GarageItem>().Result;
                 if (garage != null)
                 {
                     Console.WriteLine($" {garage.Name} {garage.Location} {garage.CollectionValue} {garage.CarCollection}");
-                }
+                                  }
                 else { Console.WriteLine("Invalid ID"); }
 
             }
             Console.ReadKey();
         }
-        public void AddAGarage() //Post
-        {
+
+
+          public void AddAManfacturer() //Post
+          {
             Console.Clear();
             Dictionary<string, string> newRest = new Dictionary<string, string>();
+            Console.Write("Manufacturer Id: ");
+            string manufacturerId = GetSafeInterger().ToString();
+            newRest.Add("ManufacturerId", manufacturerId);
 
+            Console.Write("Company Name: ");
+            string companyName = Console.ReadLine();
+            newRest.Add("Company Name", companyName);
+
+            Console.Write("Locations: ");
+            string location = Console.ReadLine();
+            newRest.Add("Locations", location);
+
+            Console.Write("Date Founded: ");
+            string founded = Console.ReadLine();
+            DateTime dateFounded = Convert.ToDateTime(founded);
+            newRest.Add("Date Founded", dateFounded.ToString());
+  
+            Console.Clear();
+            Console.WriteLine("Sending...");
+
+            HttpContent newRestHTTP = new FormUrlEncodedContent(newRest);
+
+            // Needs auth token added
+  Task<HttpResponseMessage> response = httpClient.PostAsync($"https://localhost:{localHost}/api/Manufacturer/", newRestHTTP);
+              if (response.Result.IsSuccessStatusCode) { Console.WriteLine("Success"); }
+            else { Console.WriteLine("Fail"); }
+            Console.ReadKey();
+        }
+
+          public void AddAGarage() //Post
+          {
+            Console.Clear();
+            Dictionary<string, string> newRest = new Dictionary<string, string>();
             Console.Write("Name: ");
             string name = Console.ReadLine();
             newRest.Add("Name", name);
@@ -432,20 +518,71 @@ namespace SpooderManConsole
             Console.Write("Location: ");
             string location = Console.ReadLine();
             newRest.Add("Location", location);
-
+  
             Console.Clear();
             Console.WriteLine("Sending...");
 
             HttpContent newRestHTTP = new FormUrlEncodedContent(newRest);
 
             // Needs auth token added
-            Task<HttpResponseMessage> response = httpClient.PostAsync($"https://localhost:{localHost}/api/Garage/", newRestHTTP);
-            if (response.Result.IsSuccessStatusCode) { Console.WriteLine("Success"); }
+  Task<HttpResponseMessage> response = httpClient.PostAsync($"https://localhost:{localHost}/api/Garage/", newRestHTTP);
+              if (response.Result.IsSuccessStatusCode) { Console.WriteLine("Success"); }
             else { Console.WriteLine("Fail"); }
             Console.ReadKey();
         }
 
-        public void UpdateAGarage() //Put
+
+        public void UpdateAManufacturer() //Put
+        {
+            Console.Clear();
+            Console.WriteLine("Enter manufaturer ID to update");
+            int id = GetSafeInterger();
+            Console.Write("Connecting.....");
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Manufacturer/");
+            HttpResponseMessage response = getTask.Result;
+            ManufacturerListItem oldManufacturer = new ManufacturerListItem();
+            if (response.IsSuccessStatusCode)
+            {
+                Console.Clear();
+                oldManufacturer = httpClient.GetAsync($"https://localhost:{localHost}/api/Manufacturer/{id}").Result.Content.ReadAsAsync<ManufacturerListItem>().Result;
+                if (oldManufacturer != null)
+                {
+                    Console.WriteLine($" {oldManufacturer.Id} {oldManufacturer.CompanyName} {oldManufacturer.Locations} {oldManufacturer.Founded}");
+                  }
+                else { Console.WriteLine("Invalid ID"); }
+
+            }
+            Dictionary<string, string> newManufacturer = new Dictionary<string, string>();
+            newManufacturer.Add("Id", id.ToString());
+
+            Console.Write("Manufacturer Id: ");
+            string manufacturerId = GetSafeInterger().ToString();
+            newManufacturer.Add("Id", manufacturerId);
+
+            Console.Write("Company Name: ");
+            string companyName = Console.ReadLine();
+            newManufacturer.Add("Company Name", companyName);
+
+            Console.Write("Locations: ");
+            string location = Console.ReadLine();
+            newManufacturer.Add("Locations", location);
+
+            Console.Write("Date Founded: ");
+            string founded = Console.ReadLine();
+            DateTime dateFounded = Convert.ToDateTime(founded);
+            newManufacturer.Add("Date Founded", dateFounded.ToString());
+            Console.Clear();
+            Console.WriteLine("Sending...");
+              HttpContent newRestHTTP = new FormUrlEncodedContent(newManufacturer);
+
+            // Needs auth token added
+            Task<HttpResponseMessage> putResponse = httpClient.PutAsync($"https://localhost:{localHost}/api/Manufacturer/", newRestHTTP);
+              if (putResponse.Result.IsSuccessStatusCode) { Console.WriteLine("Success"); }
+            else { Console.WriteLine("Fail"); }
+            Console.ReadKey();
+        }
+           
+   public void UpdateAGarage() //Put
         {
             Console.Clear();
             Console.WriteLine("Enter Garage ID to update");
@@ -461,7 +598,7 @@ namespace SpooderManConsole
                 if (oldGarage != null)
                 {
                     Console.WriteLine($" {oldGarage.Name} {oldGarage.Location}");
-                }
+                  }
                 else { Console.WriteLine("Invalid ID"); }
 
             }
@@ -475,10 +612,8 @@ namespace SpooderManConsole
             Console.Write("Location: ");
             string location = Console.ReadLine();
             newGarage.Add("Location", location);
-
             Console.Clear();
             Console.WriteLine("Sending...");
-
             HttpContent newRestHTTP = new FormUrlEncodedContent(newGarage);
 
             // Needs auth token added
@@ -487,7 +622,22 @@ namespace SpooderManConsole
             else { Console.WriteLine("Fail"); }
             Console.ReadKey();
         }
-
+                  
+        public void DeleteAManufacturer() //Delete
+        {
+            Console.Clear();
+            Console.WriteLine("Enter manufacturer ID to delete");
+            int id = GetSafeInterger();
+            Console.Write("Connecting.....");
+            Task<HttpResponseMessage> deleteTask = httpClient.DeleteAsync($"https://localhost:{localHost}/api/Manufacturer/{id}");
+            HttpResponseMessage response = deleteTask.Result;
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Manufacturer deleted");
+                          }
+            else { Console.WriteLine("Invalid ID"); }
+            Console.ReadKey();
+        }
         public void DeleteAGarage() //Delete
         {
             Console.Clear();
@@ -503,16 +653,6 @@ namespace SpooderManConsole
             else { Console.WriteLine("Invalid ID"); }
             Console.ReadKey();
         }
-
-
-
-
-
-
-
-
-
-
 
         private string GetCarType()
         {
