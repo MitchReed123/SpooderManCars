@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E5289B4C-B00A-4DFF-9FE1-E79CBF152B0E}</ProjectGuid>
+    <ProjectGuid>{C1DD4FAA-554A-446D-8894-F0072AEF7601}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>SpooderManCars.UI</RootNamespace>
-    <AssemblyName>SpooderManCars.UI</AssemblyName>
+    <RootNamespace>SpooderManConsole</RootNamespace>
+    <AssemblyName>SpooderManConsole</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
