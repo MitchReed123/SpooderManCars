@@ -16,7 +16,7 @@ namespace SpooderManCars.Services
     public class ManufacturerService
     {
 
-        public bool CreateManufacturer(ManufacturerCreate model)
+        public async Task<bool> CreateManufacturer(ManufacturerCreate model)
         {
             var entity = new Manufacturer()
             {
@@ -28,15 +28,15 @@ namespace SpooderManCars.Services
             {
                 ctx.Manufacturers.Add(entity);
 
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
         }
 
-        public List<ManufacturerListItem> GetManufacturer()
+        public async Task<List<ManufacturerListItem>> GetManufacturer()
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var query = ctx.Manufacturers.Select(
+                var query = await ctx.Manufacturers.Select(
                     e =>
                     new ManufacturerListItem
                     {
@@ -57,19 +57,19 @@ namespace SpooderManCars.Services
                         }),
                         Founded = e.Founded
                     }
-                    );
-                return query.ToList();
+                    ).ToListAsync();
+                return query;
             }
         }
 
-        public ManufacturerListItem GetManufacturerById(int id)
+        public async Task<ManufacturerListItem> GetManufacturerById(int id)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity =
+                var entity = await
                     ctx
                         .Manufacturers
-                        .Single(e => e.Id == id);
+                        .SingleAsync(e => e.Id == id);
                 return
                     new ManufacturerListItem
                     {
@@ -94,7 +94,7 @@ namespace SpooderManCars.Services
         }
 
 
-        public bool UpdateManufacturer(ManufacturerEdit model)
+        public async Task<bool> UpdateManufacturer(ManufacturerEdit model)
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -109,11 +109,11 @@ namespace SpooderManCars.Services
                 entity.Locations = model.Locations;
                 entity.Founded = model.Founded;
 
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
         }
 
-        public bool DeleteManufacturer(int Id)
+        public async Task<bool> DeleteManufacturer(int Id)
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -122,7 +122,7 @@ namespace SpooderManCars.Services
                     .Manufacturers
                     .Single(e => e.Id == Id && e.CompanyName == e.CompanyName);
                 ctx.Manufacturers.Remove(entity);
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
 
         }

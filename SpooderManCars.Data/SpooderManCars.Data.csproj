@@ -100,6 +100,10 @@
     <Compile Include="Migrations\202009081936206_Jellin.Designer.cs">
       <DependentUpon>202009081936206_Jellin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009082033383_Asyncssss.cs" />
+    <Compile Include="Migrations\202009082033383_Asyncssss.Designer.cs">
+      <DependentUpon>202009082033383_Asyncssss.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -161,6 +165,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009081936206_Jellin.resx">
       <DependentUpon>202009081936206_Jellin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009082033383_Asyncssss.resx">
+      <DependentUpon>202009082033383_Asyncssss.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
