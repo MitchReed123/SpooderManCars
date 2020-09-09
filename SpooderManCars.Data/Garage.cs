@@ -19,16 +19,23 @@ namespace SpooderManCars.Data
         {
             get
             {
-                var cars = CarCollection;
-
-                decimal total = 0;
-                foreach (Car car in cars)
-                {
-                    total += car.CarValue;
-                }
-                return total;
+                return GetTotalValue(CarCollection);
             }
-            set { }
+            set
+            {
+                CollectionValue = GetTotalValue(CarCollection);
+            }
+        }
+
+        //-- For potential use later -- Make sure to refactor CollectionValue
+        private decimal GetTotalValue(ICollection<Car> cars)
+        {
+            decimal total = 0;
+            foreach (Car car in cars)
+            {
+                total += car.CarValue;
+            }
+            return total;
         }
     }
 }

@@ -30,7 +30,7 @@ namespace SpooderManCars.Services
                 Year = model.Year,
                 CarType = model.CarType,
                 Transmission = model.Transmission,
-                CarValue = model.CarValue
+                CarValue = model.CarValue,
             };
 
             using (var ctx = new ApplicationDbContext())
@@ -53,7 +53,7 @@ namespace SpooderManCars.Services
                     Year = r.Year,
                     CarType = r.CarType,
                     Transmission = r.Transmission,
-                    CarValue = r.CarValue
+                    CarValue = r.CarValue,
                 }).ToListAsync();
             return carList;
         }
@@ -75,7 +75,7 @@ namespace SpooderManCars.Services
                         Year = entity.Year,
                         CarType = entity.CarType,
                         Transmission = entity.Transmission,
-                        CarValue = entity.CarValue
+                        CarValue = entity.CarValue,
                     };
             }
         }
