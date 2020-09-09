@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Net.Http.Formatting;
 using SpooderManCars.Models.ManufacturerModels;
+using SpooderManCars.Models;
 
 namespace SpooderManConsole
 {
@@ -378,6 +379,140 @@ namespace SpooderManConsole
             else { Console.WriteLine("Invalid ID"); }
             Console.ReadKey();
         }
+
+        public void ViewAllGarages() //Get
+        {
+            Console.Clear();
+            Console.Write("Spoodering.....");
+
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Garage/");
+            HttpResponseMessage response = getTask.Result;
+            if (response.IsSuccessStatusCode)
+            {
+                Console.Clear();
+                List<GarageItem> garages = httpClient.GetAsync($"https://localhost:{localHost}/api/Garage/").Result.Content.ReadAsAsync<List<GarageItem>>().Result;
+                foreach (GarageItem garage in garages)
+                {
+
+                    Console.WriteLine($" {garage.Id} {garage.Name} {garage.Location} {garage.CollectionValue}");
+                }
+            }
+            Console.ReadKey();
+        }
+        public void ViewAGarage() //Get/{id}
+        {
+            Console.Clear();
+            Console.WriteLine("Enter Garage ID");
+            int id = GetSafeInterger();
+            Console.Write("Connecting.....");
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Garage/");
+            HttpResponseMessage response = getTask.Result;
+            if (response.IsSuccessStatusCode)
+            {
+                Console.Clear();
+                GarageItem garage = httpClient.GetAsync($"https://localhost:{localHost}/api/Garage/{id}").Result.Content.ReadAsAsync<GarageItem>().Result;
+                if (garage != null)
+                {
+                    Console.WriteLine($" {garage.Name} {garage.Location} {garage.CollectionValue} {garage.CarCollection}");
+                }
+                else { Console.WriteLine("Invalid ID"); }
+
+            }
+            Console.ReadKey();
+        }
+        public void AddAGarage() //Post
+        {
+            Console.Clear();
+            Dictionary<string, string> newRest = new Dictionary<string, string>();
+
+            Console.Write("Name: ");
+            string name = Console.ReadLine();
+            newRest.Add("Name", name);
+
+            Console.Write("Location: ");
+            string location = Console.ReadLine();
+            newRest.Add("Location", location);
+
+            Console.Clear();
+            Console.WriteLine("Sending...");
+
+            HttpContent newRestHTTP = new FormUrlEncodedContent(newRest);
+
+            // Needs auth token added
+            Task<HttpResponseMessage> response = httpClient.PostAsync($"https://localhost:{localHost}/api/Garage/", newRestHTTP);
+            if (response.Result.IsSuccessStatusCode) { Console.WriteLine("Success"); }
+            else { Console.WriteLine("Fail"); }
+            Console.ReadKey();
+        }
+
+        public void UpdateAGarage() //Put
+        {
+            Console.Clear();
+            Console.WriteLine("Enter Garage ID to update");
+            int id = GetSafeInterger();
+            Console.Write("Connecting.....");
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Garage/");
+            HttpResponseMessage response = getTask.Result;
+            GarageItem oldGarage = new GarageItem();
+            if (response.IsSuccessStatusCode)
+            {
+                Console.Clear();
+                oldGarage = httpClient.GetAsync($"https://localhost:{localHost}/api/Garage/{id}").Result.Content.ReadAsAsync<GarageItem>().Result;
+                if (oldGarage != null)
+                {
+                    Console.WriteLine($" {oldGarage.Name} {oldGarage.Location}");
+                }
+                else { Console.WriteLine("Invalid ID"); }
+
+            }
+            Dictionary<string, string> newGarage = new Dictionary<string, string>();
+            newGarage.Add("Id", id.ToString());
+
+            Console.Write("Name: ");
+            string name = Console.ReadLine();
+            newGarage.Add("Name", name);
+
+            Console.Write("Location: ");
+            string location = Console.ReadLine();
+            newGarage.Add("Location", location);
+
+            Console.Clear();
+            Console.WriteLine("Sending...");
+
+            HttpContent newRestHTTP = new FormUrlEncodedContent(newGarage);
+
+            // Needs auth token added
+            Task<HttpResponseMessage> putResponse = httpClient.PutAsync($"https://localhost:{localHost}/api/Garage/", newRestHTTP);
+            if (putResponse.Result.IsSuccessStatusCode) { Console.WriteLine("Success"); }
+            else { Console.WriteLine("Fail"); }
+            Console.ReadKey();
+        }
+
+        public void DeleteAGarage() //Delete
+        {
+            Console.Clear();
+            Console.WriteLine("Enter Garage ID to delete");
+            int id = GetSafeInterger();
+            Console.Write("Connecting.....");
+            Task<HttpResponseMessage> deleteTask = httpClient.DeleteAsync($"https://localhost:{localHost}/api/Garage/{id}");
+            HttpResponseMessage response = deleteTask.Result;
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Garage deleted");
+            }
+            else { Console.WriteLine("Invalid ID"); }
+            Console.ReadKey();
+        }
+
+
+
+
+
+
+
+
+
+
 
         private string GetCarType()
         {
