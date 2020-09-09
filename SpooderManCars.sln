@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpooderManCars.Services", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpooderManCars.Models", "SpooderManCars.Models\SpooderManCars.Models.csproj", "{8E2C997A-1781-4C5A-A3F7-A39517E764CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpooderManConsole", "SpooderManConsole\SpooderManConsole.csproj", "{C1DD4FAA-554A-446D-8894-F0072AEF7601}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{8E2C997A-1781-4C5A-A3F7-A39517E764CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E2C997A-1781-4C5A-A3F7-A39517E764CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E2C997A-1781-4C5A-A3F7-A39517E764CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1DD4FAA-554A-446D-8894-F0072AEF7601}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1DD4FAA-554A-446D-8894-F0072AEF7601}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1DD4FAA-554A-446D-8894-F0072AEF7601}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1DD4FAA-554A-446D-8894-F0072AEF7601}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
