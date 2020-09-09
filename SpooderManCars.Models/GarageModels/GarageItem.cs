@@ -23,10 +23,10 @@ namespace SpooderManCars.Models
             {
                 return GetTotalValue(CarCollection);
             }
-            set
-            {
+            //set
+            //{
                 
-            }
+            //}
         }
 
         //-- For potential use later -- Make sure to refactor CollectionValue
