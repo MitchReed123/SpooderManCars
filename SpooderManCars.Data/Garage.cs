@@ -15,7 +15,6 @@ namespace SpooderManCars.Data
         public Guid CollectorId { get; set; }
         public string Location { get; set; }
         public ICollection<Car> CarCollection { get; set; }
-        //public decimal CollectionValue { get; set; }
         public decimal CollectionValue
         {
             get
@@ -37,7 +36,7 @@ namespace SpooderManCars.Data
                 total += car.CarValue;
             }
             return total;
-
         }
     }
 }
+

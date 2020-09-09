@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace SpooderManCars.Services
 {
@@ -20,7 +21,7 @@ namespace SpooderManCars.Services
             _userId = userId;
         }
 
-        public bool CreateGarage(CreateGarage model)
+        public async Task<bool> CreateGarage(CreateGarage model)
         {
             var entity = new Garage()
             {
@@ -30,12 +31,12 @@ namespace SpooderManCars.Services
             };
 
             _context.Garages.Add(entity);
-            return _context.SaveChanges() == 1;
+            return await _context.SaveChangesAsync() == 1;
         }
 
-        public IEnumerable<GarageItem> GetAllGarages()
+        public async Task<IEnumerable<GarageItem>> GetAllGarages()
         {
-            var query = _context.Garages.Where(g => g.CollectorId == _userId)
+            var query = await _context.Garages.Where(g => g.CollectorId == _userId)
                 .Select(g => new GarageItem
                 {
                     Id = g.Id,
@@ -53,16 +54,16 @@ namespace SpooderManCars.Services
                         CarType = c.CarType,
                         Transmission = c.Transmission,
                         CarValue = c.CarValue,
-                        
                     })
-                });
-            return query.ToArray();
+                }).ToArrayAsync();
+            return query;
         }
 
-        public IEnumerable<GarageItem> GetGarageById(int id)
+        public async Task<GarageItem> GetGarageById(int id)
         {
-            var query = _context.Garages.Where(g => g.CollectorId == _userId && g.Id == id)
-                .Select(g => new GarageItem
+            var query = await _context.Garages.SingleAsync(g => g.CollectorId == _userId && g.Id == id);
+            return
+                new GarageItem
                 {
                     Id = g.Id,
                     Name = g.Name,
@@ -84,21 +85,29 @@ namespace SpooderManCars.Services
             return query.ToArray();
         }
 
-        public bool UpdateGarage(GarageEdit model)
+        public async Task<bool> UpdateGarage(GarageEdit model)
         {
-            var entity = _context.Garages.Single(g => g.Id == model.Id && g.CollectorId == _userId);
-            entity.Location = model.Location;
-            entity.Name = model.Name;
-
-            return _context.SaveChanges() == 1;
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity = await ctx.Garages.SingleAsync(g => g.Id == model.Id && g.CollectorId == _userId);
+                entity.Location = model.Location;
+                entity.Name = model.Name;
+                return await ctx.SaveChangesAsync() == 1;
+            }
         }
 
-        public bool DeleteGarage(int garageId)
+        public async Task<bool> DeleteGarage(int garageId)
         {
-            var entity = _context.Garages.Single(g => g.Id == garageId && g.CollectorId == _userId);
-            _context.Garages.Remove(entity);
+            using (var ctx = new ApplicationDbContext())
+            {
+                {
+                    var entity = ctx.Garages.Single(g => g.Id == garageId && g.CollectorId == _userId);
+                    ctx.Garages.Remove(entity);
 
-            return _context.SaveChanges() == 1;
+                    return await _context.SaveChangesAsync() == 1;
+                }
+            }
+
         }
     }
 }

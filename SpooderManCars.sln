@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpooderManCars.Services", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpooderManCars.Models", "SpooderManCars.Models\SpooderManCars.Models.csproj", "{8E2C997A-1781-4C5A-A3F7-A39517E764CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpooderManCars.UI", "SpooderManCars.UI\SpooderManCars.UI.csproj", "{E5289B4C-B00A-4DFF-9FE1-E79CBF152B0E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpooderManConsole", "SpooderManConsole\SpooderManConsole.csproj", "{C1DD4FAA-554A-446D-8894-F0072AEF7601}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

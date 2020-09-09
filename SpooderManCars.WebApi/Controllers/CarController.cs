@@ -55,7 +55,7 @@ namespace SpooderManCars.WebApi.Controllers
 
             if (!(await CreateCarService().UpdateCar(car)))
                 return InternalServerError();
-            return Ok();
+            return Ok(car);
 
         }
         [HttpDelete]
