@@ -27,7 +27,7 @@ namespace SpooderManCars.Services
             {
                 CollectorId = _userId,
                 Name = model.Name,
-                Location = model.Location,
+                Location = model.Location
             };
 
             _context.Garages.Add(entity);
@@ -42,6 +42,7 @@ namespace SpooderManCars.Services
                     Id = g.Id,
                     Name = g.Name,
                     Location = g.Location,
+                    CollectionValue = g.CollectionValue,
                     CarCollection = g.CarCollection.Select(c => new CarItem
                     {
                         Id = c.Id,
@@ -53,7 +54,7 @@ namespace SpooderManCars.Services
                         Year = c.Year,
                         CarType = c.CarType,
                         Transmission = c.Transmission,
-                        CarValue = c.CarValue,
+                        CarValue = c.CarValue
                     })
                 }).ToArrayAsync();
             return query;
@@ -65,10 +66,11 @@ namespace SpooderManCars.Services
             return
                 new GarageItem
                 {
-                    Id = g.Id,
-                    Name = g.Name,
-                    Location = g.Location,
-                    CarCollection = g.CarCollection.Select(c => new CarItem
+                    Id = query.Id,
+                    Name = query.Name,
+                    Location = query.Location,
+                    CollectionValue = query.CollectionValue,
+                    CarCollection = query.CarCollection.Select(c => new CarItem
                     {
                         Id = c.Id,
                         ManufacturerId = c.ManufacturerId,
@@ -79,10 +81,9 @@ namespace SpooderManCars.Services
                         Year = c.Year,
                         CarType = c.CarType,
                         Transmission = c.Transmission,
-                        CarValue = c.CarValue,
+                        CarValue = c.CarValue
                     })
-                }) ;
-            return query.ToArray();
+                };
         }
 
         public async Task<bool> UpdateGarage(GarageEdit model)
@@ -92,6 +93,7 @@ namespace SpooderManCars.Services
                 var entity = await ctx.Garages.SingleAsync(g => g.Id == model.Id && g.CollectorId == _userId);
                 entity.Location = model.Location;
                 entity.Name = model.Name;
+
                 return await ctx.SaveChangesAsync() == 1;
             }
         }
