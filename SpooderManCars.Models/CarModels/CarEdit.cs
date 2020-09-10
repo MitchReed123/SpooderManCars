@@ -11,7 +11,7 @@ namespace SpooderManCars.Models.CarModels
     public class CarEdit
     {
         [Required]
-        public int Id { get; }
+        public int Id { get; set; }
         public int ManufacturerId { get; set; }
         public int GarageId { get; set; }
 

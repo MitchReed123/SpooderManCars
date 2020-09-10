@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNet.Identity;
+using SpooderManCars.Data;
 using SpooderManCars.Models;
 using SpooderManCars.Models.GarageModels;
 using SpooderManCars.Services;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -16,6 +18,7 @@ namespace SpooderManCars.WebApi.Controllers
     [Authorize]
     public class GarageController : ApiController
     {
+        //private readonly ApplicationDbContext _content = new ApplicationDbContext();
         private GarageService CreateGarageService()
         {
             var userId = Guid.Parse(User.Identity.GetUserId());
@@ -39,6 +42,7 @@ namespace SpooderManCars.WebApi.Controllers
         {
             GarageService garageService = CreateGarageService();
             var garages = await garageService.GetAllGarages();
+            //List<Garage> garages = await _content.Garages.ToListAsync();
             return Ok(garages);
         }
         [HttpGet]

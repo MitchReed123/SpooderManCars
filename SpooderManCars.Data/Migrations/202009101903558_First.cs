@@ -3,7 +3,7 @@ namespace SpooderManCars.Data.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Ellclkaje : DbMigration
+    public partial class First : DbMigration
     {
         public override void Up()
         {
@@ -12,7 +12,7 @@ namespace SpooderManCars.Data.Migrations
         
         public override void Down()
         {
-            AddColumn("dbo.Garage", "CollectionValue", c => c.Decimal(precision: 18, scale: 2));
+            AddColumn("dbo.Garage", "CollectionValue", c => c.Decimal(nullable: false, precision: 18, scale: 2));
         }
     }
 }

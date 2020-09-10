@@ -88,21 +88,17 @@
     <Compile Include="Garage.cs" />
     <Compile Include="IdentityModels.cs" />
     <Compile Include="Manufacturer.cs" />
-    <Compile Include="Migrations\202009081801009_CarValue.cs" />
-    <Compile Include="Migrations\202009081801009_CarValue.Designer.cs">
-      <DependentUpon>202009081801009_CarValue.cs</DependentUpon>
+    <Compile Include="Migrations\202009101903558_First.cs" />
+    <Compile Include="Migrations\202009101903558_First.Designer.cs">
+      <DependentUpon>202009101903558_First.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202009081855596_Ellclkaje.cs" />
-    <Compile Include="Migrations\202009081855596_Ellclkaje.Designer.cs">
-      <DependentUpon>202009081855596_Ellclkaje.cs</DependentUpon>
+    <Compile Include="Migrations\202009101914254_TableChange.cs" />
+    <Compile Include="Migrations\202009101914254_TableChange.Designer.cs">
+      <DependentUpon>202009101914254_TableChange.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202009081936206_Jellin.cs" />
-    <Compile Include="Migrations\202009081936206_Jellin.Designer.cs">
-      <DependentUpon>202009081936206_Jellin.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202009082033383_Asyncssss.cs" />
-    <Compile Include="Migrations\202009082033383_Asyncssss.Designer.cs">
-      <DependentUpon>202009082033383_Asyncssss.cs</DependentUpon>
+    <Compile Include="Migrations\202009102036469_Redid car value.cs" />
+    <Compile Include="Migrations\202009102036469_Redid car value.Designer.cs">
+      <DependentUpon>202009102036469_Redid car value.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
@@ -157,17 +153,14 @@
     <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202009081801009_CarValue.resx">
-      <DependentUpon>202009081801009_CarValue.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202009101903558_First.resx">
+      <DependentUpon>202009101903558_First.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202009081855596_Ellclkaje.resx">
-      <DependentUpon>202009081855596_Ellclkaje.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202009101914254_TableChange.resx">
+      <DependentUpon>202009101914254_TableChange.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202009081936206_Jellin.resx">
-      <DependentUpon>202009081936206_Jellin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202009082033383_Asyncssss.resx">
-      <DependentUpon>202009082033383_Asyncssss.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202009102036469_Redid car value.resx">
+      <DependentUpon>202009102036469_Redid car value.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

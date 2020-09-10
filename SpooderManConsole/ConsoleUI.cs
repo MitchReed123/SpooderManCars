@@ -12,6 +12,7 @@ using System.Net.Http.Formatting;
 using SpooderManCars.Models.ManufacturerModels;
 using SpooderManCars.Models;
 using SpooderManCars.Models.RacingModels;
+using System.Runtime.CompilerServices;
 
 namespace SpooderManConsole
 {
@@ -20,8 +21,7 @@ namespace SpooderManConsole
         HttpClient httpClient = new HttpClient();
         private static bool loggedIn = false;
         private bool runMenu = true;
-        public int localHost = 44336;
-        private static string authToken;
+        public static string aPIUrl = "localhost:44336";
         private static string _token;
         public void Run()
         {
@@ -36,14 +36,14 @@ namespace SpooderManConsole
             }
             while (runMenu)
             {
-                Launch(MenuAndInput());
+                Launch(MenuAndInput(ItemMenu()));
             }
         }
 
         public void LocalHostGet()
         {
             Console.WriteLine("What's the local host 5 digit access number?");
-            localHost = GetSafeLocalHost();
+            aPIUrl = GetSafeLocalHost();
         }
 
         public void Login(string input)
@@ -51,14 +51,13 @@ namespace SpooderManConsole
             switch (input)
             {
                 case "1":
-                    Register();
+                    Registering();
                     break;
                 case "2":
-                    Login();
+                    LoggingIn();
                     break;
                 case "3":
-                    loggedIn = true;
-                    authToken = "a1Hdyv1Ju4hxCfKO1CEGaThA5hc - sZ81aMy5vHZYL - uxbQ74dmkPQOKWbllwAFJcyAG6Qzy1w8EOaC14je8OSQipJi60Rm7MATLNIthW5nnNPsH3E1TT2hn7FaVAkmYsfh2m0qeEIvKKloGnVOGk8J7iC2ypWqsJa8IUvhEXuHQlr9UsmxSkGk1CFsji6Id - tsIjv2l0VvV - GjAKDYftKkPDyxmWcZgsLvuie9k2uM14aXUqrfBTaiQlsUp0AtrkgAc - n22TneeLH08ii7fRBnRpLfCyt - oAI2iOYY8Q8a7yxPnJ6n3gnd94TXxLE5Aa7fKkzPYICWbLszGUoQ1K0rfQpzOU7MCrYGG5ovaZNfQRAi3s6OEk6xS9_sCqnPw6khsutDOXiwmdqRHwGt38FWYwaoLK2_V3D0vq2OvodkDH - X85WIOzDjUmDiEyWYGlIFzBRV - nOv5c0P3h_KyC7JozFLm3VXpH - noAAvfFvyE";
+                    TesterLogin();
                     break;
             }
 
@@ -74,79 +73,152 @@ namespace SpooderManConsole
         }
 
         // Each table has 5 endpoints. Post/Put/Get/Get{id}/Delete
-        public string MenuAndInput()
+        public string ItemMenu()
         {
+            bool properChoice = false;
+            while (!properChoice)
+            {
+            Console.Clear();
+                Console.WriteLine("Welcome to the SpooderMan Cars collection database\n" +
+                    "Which set of objects would you want to interact with?\n" +
+                    "1. Manufacturers\n" +
+                    "2. Racing Teams\n" +
+                    "3. Your Garages\n" +
+                    "4. Your cars\n" +
+                    "5. Exit Program");
+                string input = Console.ReadLine().ToLower();
+                switch (input)
+                {
+                    case "1":
+                    case "m":
+                        return "M";
+                    case "2":
+                    case "r":
+                        return "R";
+                    case "3":
+                    case "g":
+                        return "G";
+                    case "4":
+                    case "c":
+                        return "C";
+                    case "e":
+                    case "exit":
+                    case "5":
+                        runMenu = false;
+                        return "E";
+                }
+                Console.WriteLine("Invalid entry");
+            }
+            return "Error";
+        }
+        public string MenuAndInput(string choice)
+        {
+            string item = "EntityError";
+            switch (choice)
+            {
+                case "M":
+                    item = "Manufacturer";
+                    break;
+                case "R":
+                    item = "Racing Team";
+                    break;
+                case "G":
+                    item = "Garage";
+                    break;
+                case "C":
+                    item = "car";
+                    break;
+                case "E":
+                case "Error":
+                    return "E";
+            }
+
             Console.Clear();
             Console.WriteLine("SpooderMan Cars Database\n" +
-                "1. View all your Manufacturers\n" +
-                "2. View all your cars\n" +
-                "3. View your garage info\n" +
-                "4. View all racing teams\n" +
-                "5. Look up a Manufacturer\n" +
-                "6. Look up a Car\n" +
-                "7. Look up a Racing Team\n" +
-                "8. Create a Manufacturer\n" +
-                "9. Update a Manufacturer\n" +
-                "10. Delete a Manufactuerer\n" +
-                "11. View all\n" +
-                "18. Exit");
-            return Console.ReadLine();
+                $"1. View all {item}s\n" +
+                $"2. View a {item}\n" +
+                $"3. Create a {item} entry\n" +
+                $"4. Update a {item} entry\n" +
+                $"5. Remove a {item}\n" +
+                "6. Back");
+            return choice + Console.ReadLine();
         }
+
         public void Launch(string input)
         {
             switch (input)
             {
-                case "1":
+                case "M1":
                     ViewAllManufacturer();
                     break;
-                case "2":
-                    ViewAllCars();
-                    break;
-                case "3":
-                    AddACar();
-                    break;
-                case "4":
-                    UpdateACar();
-                    break;
-                case "5":
-                    DeleteACar();
-                    break;
-                case "6":
-                    AddAManfacturer();
-                    break;
-                case "7":
-                    UpdateAManufacturer();
-                    break;
-                case "8":
-                    DeleteAManufacturer();
-                    break;
-                case "9":
+                case "M2":
                     ViewAManufacturer();
                     break;
-                case "10":
-                    AddRaces();
+                case "M3":
+                    AddAManfacturer();
                     break;
-                case "11":
+                case "M4":
+                    UpdateAManufacturer();
+                    break;
+                case "M5":
+                    DeleteAManufacturer();
+                    break;
+                case "R1":
                     GetRaces();
                     break;
-                case "12":
+                case "R2":
+                    GetRacesId();
+                    break;
+                case "R3":
+                    AddRaces();
+                    break;
+                case "R4":
                     UpdateRaces();
                     break;
-                case "13":
+                case "R5":
                     DeleteRaces();
                     break;
-                case "14":
+                case "G1":
+                    ViewAllGarages();
                     break;
-                case "15":
+                case "G2":
+                    ViewAGarage();
                     break;
-                case "16":
+                case "G3":
+                    AddAGarage();
                     break;
-                case "17":
+                case "G4":
+                    UpdateAGarage();
                     break;
-                case "18":
+                case "G5":
+                    DeleteAGarage();
+                    break;
+                case "C1":
+                    ViewAllCars();
+                    break;
+                case "C2":
+                    ViewACar();
+                    break;
+                case "C3":
+                    AddACar();
+                    break;
+                case "C4":
+                    UpdateACar();
+                    break;
+                case "C5":
+                    DeleteACar();
+                    break;
+                case "M6":
+                case "R6":
+                case "G6":
+                case "C6":
+                    break;
+                case "E":
+                case "EntityError6":
                     runMenu = false;
                     break;
             }
+            Console.WriteLine("Please input a correct choice type");
         }
 
         private static async Task Register()
@@ -170,16 +242,13 @@ namespace SpooderManConsole
             register.Add("LastName", Console.ReadLine());
 
             HttpClient httpClient = new HttpClient();
-            var registerInfo = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44336/api/Account/Register");
+            var registerInfo = new HttpRequestMessage(HttpMethod.Post, $"https://{aPIUrl}/api/Account/Register");
             registerInfo.Content = new FormUrlEncodedContent(register.AsEnumerable());
             var response = await httpClient.SendAsync(registerInfo);
 
             if (response.IsSuccessStatusCode)
             {
-
                 Console.WriteLine("Registered");
-                //Console.ReadLine();
-                loggedIn = true;
             }
             else
             {
@@ -187,7 +256,11 @@ namespace SpooderManConsole
             }
 
         }
-
+        public static void Registering()
+        {
+            var task = Register();
+            task.Wait();
+        }
         private static async Task Login()
         {
             Console.Clear();
@@ -200,10 +273,11 @@ namespace SpooderManConsole
 
             Console.Write("Password: ");
             login.Add("Password", Console.ReadLine());
+            Console.WriteLine("Logging in.....");
 
             HttpClient httpClient = new HttpClient();
 
-            var newToken = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44336/token");
+            var newToken = new HttpRequestMessage(HttpMethod.Post, $"https://{aPIUrl}/token");
             newToken.Content = new FormUrlEncodedContent(login.AsEnumerable());
             var response = await httpClient.SendAsync(newToken);
             var tokenString = await response.Content.ReadAsStringAsync();
@@ -223,18 +297,89 @@ namespace SpooderManConsole
                 Console.WriteLine("Nope ");
             }
         }
+
+        public static void LoggingIn()
+        {
+            //Catch and wait method
+            var task = Login();
+            task.Wait();
+        }
+
+        public static async Task Tester()
+        {
+            //Register test account for first time runners
+            Console.Clear();
+            Console.WriteLine("Setting up testing account");
+            HttpClient httpClient = new HttpClient();
+            Dictionary<string, string> register = new Dictionary<string, string>()
+            {
+                {"Email", "TestAccount@Spooderman.com"},
+                {"Password", "TestSpooderMan1!"},
+                {"ConfirmPassword","TestSpooderMan1!"},
+                {"FirstName","Peter"},
+                {"LastName","Parker"}
+            };
+            var registerInfo = new HttpRequestMessage(HttpMethod.Post, $"https://{aPIUrl}/api/Account/Register");
+            registerInfo.Content = new FormUrlEncodedContent(register.AsEnumerable());
+            var response = await httpClient.SendAsync(registerInfo);
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("New Tester Registered");
+            }
+            else
+            {
+                Console.WriteLine("Already Registered");
+            }
+            //login
+            Console.WriteLine("Logging into test account");
+            Dictionary<string, string> login = new Dictionary<string, string>
+            {
+                {"grant_type", "password" },
+                {"Username", "TestAccount@Spooderman.com" },
+                {"Password", "TestSpooderMan1!" }
+            };
+
+            var newToken = new HttpRequestMessage(HttpMethod.Post, $"https://{aPIUrl}/token");
+            newToken.Content = new FormUrlEncodedContent(login.AsEnumerable());
+            var loginResponse = await httpClient.SendAsync(newToken);
+            var tokenString = await loginResponse.Content.ReadAsStringAsync();
+            var token = JsonConvert.DeserializeObject<Tokens>(tokenString).Value;
+            _token = token;
+
+            newToken.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
+            if (loginResponse.IsSuccessStatusCode)
+            {
+                loggedIn = true;
+                Console.WriteLine("Logged In");
+            }
+            else
+            {
+                Console.WriteLine("An error occured");
+                Console.WriteLine(loginResponse.StatusCode);
+                Console.ReadLine();
+            }
+        }
+
+        public static void TesterLogin()
+        {
+            var task = Tester();
+            task.Wait();
+        }
+
+
         public void ViewAllCars() //Get
         {
             Console.Clear();
             Console.Write("Connecting.....");
 
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
-            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Car/");
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://{aPIUrl}/api/Car/");
             HttpResponseMessage response = getTask.Result;
             if (response.IsSuccessStatusCode)
             {
                 Console.Clear();
-                List<CarItem> cars = httpClient.GetAsync($"https://localhost:{localHost}/api/Car/").Result.Content.ReadAsAsync<List<CarItem>>().Result;
+                List<CarItem> cars = httpClient.GetAsync($"https://{aPIUrl}/api/Car/").Result.Content.ReadAsAsync<List<CarItem>>().Result;
                 foreach (CarItem car in cars)
                 {
                     Console.WriteLine($"{car.Id} {car.Make} {car.Model} {car.Year} {car.Transmission}");
@@ -249,12 +394,12 @@ namespace SpooderManConsole
             int id = GetSafeInterger();
             Console.Write("Connecting.....");
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
-            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Car/");
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://{aPIUrl}/api/Car/");
             HttpResponseMessage response = getTask.Result;
             if (response.IsSuccessStatusCode)
             {
                 Console.Clear();
-                CarItem car = httpClient.GetAsync($"https://localhost:{localHost}/api/Car/{id}").Result.Content.ReadAsAsync<CarItem>().Result;
+                CarItem car = httpClient.GetAsync($"https://{aPIUrl}/api/Car/{id}").Result.Content.ReadAsAsync<CarItem>().Result;
                 if (car != null)
                 {
                     Console.WriteLine($"{car.Id} {car.Make} {car.Model} {car.Year} {car.Transmission}");
@@ -289,11 +434,11 @@ namespace SpooderManConsole
             string carType = GetCarType();
             newRest.Add("CarType", carType);
 
-            Console.WriteLine("Transmission size: ");
+            Console.Write("Transmission size: ");
             string tranny = Console.ReadLine();
             newRest.Add("Transmission", tranny);
 
-            Console.WriteLine("Car value: $");
+            Console.Write("Car value: $");
             decimal value = GetSafeDecimal();
             newRest.Add("CarValue", value.ToString());
 
@@ -304,7 +449,7 @@ namespace SpooderManConsole
 
             // Needs auth token added
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
-            Task<HttpResponseMessage> response = httpClient.PostAsync($"https://localhost:{localHost}/api/Car/", newRestHTTP);
+            Task<HttpResponseMessage> response = httpClient.PostAsync($"https://{aPIUrl}/api/Car/", newRestHTTP);
             if (response.Result.IsSuccessStatusCode) { Console.WriteLine("Success"); }
             else { Console.WriteLine("Fail"); }
             Console.ReadKey();
@@ -317,13 +462,13 @@ namespace SpooderManConsole
             int id = GetSafeInterger();
             Console.Write("Connecting.....");
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
-            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Car/");
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://{aPIUrl}/api/Car/");
             HttpResponseMessage response = getTask.Result;
             CarItem oldCar = new CarItem();
             if (response.IsSuccessStatusCode)
             {
                 Console.Clear();
-                oldCar = httpClient.GetAsync($"https://localhost:{localHost}/api/Car/{id}").Result.Content.ReadAsAsync<CarItem>().Result;
+                oldCar = httpClient.GetAsync($"https://{aPIUrl}/api/Car/{id}").Result.Content.ReadAsAsync<CarItem>().Result;
                 if (oldCar != null)
                 {
                     Console.WriteLine($" {oldCar.Make} {oldCar.Model} {oldCar.Year} {oldCar.Transmission}");
@@ -356,11 +501,11 @@ namespace SpooderManConsole
             string carType = GetCarType();
             newCar.Add("CarType", carType);
 
-            Console.WriteLine("Transmission size: ");
+            Console.Write("Transmission size: ");
             string tranny = Console.ReadLine();
             newCar.Add("Transmission", tranny);
 
-            Console.WriteLine("Car value: $");
+            Console.Write("Car value: $");
             decimal value = GetSafeDecimal();
             newCar.Add("CarValue", value.ToString());
 
@@ -370,7 +515,7 @@ namespace SpooderManConsole
             HttpContent newRestHTTP = new FormUrlEncodedContent(newCar);
             // Needs auth token added
 
-            Task<HttpResponseMessage> putResponse = httpClient.PutAsync($"https://localhost:{localHost}/api/Car/", newRestHTTP);
+            Task<HttpResponseMessage> putResponse = httpClient.PutAsync($"https://{aPIUrl}/api/Car/", newRestHTTP);
             Console.WriteLine(putResponse.Result.StatusCode);
             if (putResponse.Result.IsSuccessStatusCode) { Console.WriteLine("Success"); }
             else { Console.WriteLine("Fail"); }
@@ -384,7 +529,7 @@ namespace SpooderManConsole
             int id = GetSafeInterger();
             Console.Write("Connecting.....");
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
-            Task<HttpResponseMessage> deleteTask = httpClient.DeleteAsync($"https://localhost:{localHost}/api/Car/{id}");
+            Task<HttpResponseMessage> deleteTask = httpClient.DeleteAsync($"https://{aPIUrl}/api/Car/{id}");
             HttpResponseMessage response = deleteTask.Result;
             if (response.IsSuccessStatusCode)
             {
@@ -398,12 +543,12 @@ namespace SpooderManConsole
             Console.Clear();
             Console.Write("Connecting.....");
 
-            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Manufacturer/");
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://{aPIUrl}/api/Manufacturer/");
             HttpResponseMessage response = getTask.Result;
             if (response.IsSuccessStatusCode)
             {
                 Console.Clear();
-                List<ManufacturerListItem> manufacturers = httpClient.GetAsync($"https://localhost:{localHost}/api/Manufacturer/").Result.Content.ReadAsAsync<List<ManufacturerListItem>>().Result;
+                List<ManufacturerListItem> manufacturers = httpClient.GetAsync($"https://{aPIUrl}/api/Manufacturer/").Result.Content.ReadAsAsync<List<ManufacturerListItem>>().Result;
                 foreach (ManufacturerListItem manufacturer in manufacturers)
                 {
 
@@ -419,15 +564,19 @@ namespace SpooderManConsole
             Console.WriteLine("Enter manufacturer ID");
             int id = GetSafeInterger();
             Console.Write("Connecting.....");
-            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Manufacturer/");
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://{aPIUrl}/api/Manufacturer/");
             HttpResponseMessage response = getTask.Result;
             if (response.IsSuccessStatusCode)
             {
                 Console.Clear();
-                ManufacturerListItem manufacturer = httpClient.GetAsync($"https://localhost:{localHost}/api/Manufacturer/{id}").Result.Content.ReadAsAsync<ManufacturerListItem>().Result;
+                ManufacturerListItem manufacturer = httpClient.GetAsync($"https://{aPIUrl}/api/Manufacturer/{id}").Result.Content.ReadAsAsync<ManufacturerListItem>().Result;
                 if (manufacturer != null)
                 {
                     Console.WriteLine($" {manufacturer.Id} {manufacturer.CompanyName} {manufacturer.Locations} {manufacturer.Founded}");
+                    //foreach (CarItem oldCar in manufacturer.Cars)
+                    //{
+                    //    Console.WriteLine($" {oldCar.Make} {oldCar.Model} {oldCar.Year} {oldCar.Transmission}");
+                    //}
                 }
                 else { Console.WriteLine("Invalid ID"); }
 
@@ -440,13 +589,13 @@ namespace SpooderManConsole
         {
             Console.Clear();
             Dictionary<string, string> newRest = new Dictionary<string, string>();
-            Console.Write("Manufacturer Id: ");
-            string manufacturerId = GetSafeInterger().ToString();
-            newRest.Add("ManufacturerId", manufacturerId);
+            //Console.Write("Manufacturer Id: ");
+            //string manufacturerId = GetSafeInterger().ToString();
+            //newRest.Add("ManufacturerId", manufacturerId);
 
             Console.Write("Company Name: ");
             string companyName = Console.ReadLine();
-            newRest.Add("Company Name", companyName);
+            newRest.Add("CompanyName", companyName);
 
             Console.Write("Locations: ");
             string location = Console.ReadLine();
@@ -455,7 +604,7 @@ namespace SpooderManConsole
             Console.Write("Date Founded: ");
             string founded = Console.ReadLine();
             DateTime dateFounded = Convert.ToDateTime(founded);
-            newRest.Add("Date Founded", dateFounded.ToString());
+            newRest.Add("Founded", dateFounded.ToString());
 
             Console.Clear();
             Console.WriteLine("Sending...");
@@ -463,9 +612,13 @@ namespace SpooderManConsole
             HttpContent newRestHTTP = new FormUrlEncodedContent(newRest);
 
             // Needs auth token added
-            Task<HttpResponseMessage> response = httpClient.PostAsync($"https://localhost:{localHost}/api/Manufacturer/", newRestHTTP);
+            Task<HttpResponseMessage> response = httpClient.PostAsync($"https://{aPIUrl}/api/Manufacturer/", newRestHTTP);
             if (response.Result.IsSuccessStatusCode) { Console.WriteLine("Success"); }
-            else { Console.WriteLine("Fail"); }
+            else
+            {
+                Console.WriteLine(response.Result.StatusCode);
+                Console.WriteLine("Fail");
+            }
             Console.ReadKey();
         }
 
@@ -475,13 +628,13 @@ namespace SpooderManConsole
             Console.WriteLine("Enter manufaturer ID to update");
             int id = GetSafeInterger();
             Console.Write("Connecting.....");
-            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Manufacturer/");
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://{aPIUrl}/api/Manufacturer/");
             HttpResponseMessage response = getTask.Result;
             ManufacturerListItem oldManufacturer = new ManufacturerListItem();
             if (response.IsSuccessStatusCode)
             {
                 Console.Clear();
-                oldManufacturer = httpClient.GetAsync($"https://localhost:{localHost}/api/Manufacturer/{id}").Result.Content.ReadAsAsync<ManufacturerListItem>().Result;
+                oldManufacturer = httpClient.GetAsync($"https://{aPIUrl}/api/Manufacturer/{id}").Result.Content.ReadAsAsync<ManufacturerListItem>().Result;
                 if (oldManufacturer != null)
                 {
                     Console.WriteLine($" {oldManufacturer.Id} {oldManufacturer.CompanyName} {oldManufacturer.Locations} {oldManufacturer.Founded}");
@@ -492,13 +645,13 @@ namespace SpooderManConsole
             Dictionary<string, string> newManufacturer = new Dictionary<string, string>();
             newManufacturer.Add("Id", id.ToString());
 
-            Console.Write("Manufacturer Id: ");
-            string manufacturerId = GetSafeInterger().ToString();
-            newManufacturer.Add("Id", manufacturerId);
+            //Console.Write("Manufacturer Id: ");
+            //string manufacturerId = GetSafeInterger().ToString();
+            //newManufacturer.Add("Id", manufacturerId);
 
             Console.Write("Company Name: ");
             string companyName = Console.ReadLine();
-            newManufacturer.Add("Company Name", companyName);
+            newManufacturer.Add("CompanyName", companyName);
 
             Console.Write("Locations: ");
             string location = Console.ReadLine();
@@ -507,13 +660,13 @@ namespace SpooderManConsole
             Console.Write("Date Founded: ");
             string founded = Console.ReadLine();
             DateTime dateFounded = Convert.ToDateTime(founded);
-            newManufacturer.Add("Date Founded", dateFounded.ToString());
+            newManufacturer.Add("Founded", dateFounded.ToString());
             Console.Clear();
             Console.WriteLine("Sending...");
             HttpContent newRestHTTP = new FormUrlEncodedContent(newManufacturer);
 
             // Needs auth token added
-            Task<HttpResponseMessage> putResponse = httpClient.PutAsync($"https://localhost:{localHost}/api/Manufacturer/", newRestHTTP);
+            Task<HttpResponseMessage> putResponse = httpClient.PutAsync($"https://{aPIUrl}/api/Manufacturer/", newRestHTTP);
             if (putResponse.Result.IsSuccessStatusCode) { Console.WriteLine("Success"); }
             else { Console.WriteLine("Fail"); }
             Console.ReadKey();
@@ -524,7 +677,7 @@ namespace SpooderManConsole
             Console.WriteLine("Enter manufacturer ID to delete");
             int id = GetSafeInterger();
             Console.Write("Connecting.....");
-            Task<HttpResponseMessage> deleteTask = httpClient.DeleteAsync($"https://localhost:{localHost}/api/Manufacturer/{id}");
+            Task<HttpResponseMessage> deleteTask = httpClient.DeleteAsync($"https://{aPIUrl}/api/Manufacturer/{id}");
             HttpResponseMessage response = deleteTask.Result;
             if (response.IsSuccessStatusCode)
             {
@@ -537,13 +690,13 @@ namespace SpooderManConsole
         {
             Console.Clear();
             Console.Write("Spoodering.....");
-
-            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Garage/");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://{aPIUrl}/api/Garage/");
             HttpResponseMessage response = getTask.Result;
             if (response.IsSuccessStatusCode)
             {
                 Console.Clear();
-                List<GarageItem> garages = httpClient.GetAsync($"https://localhost:{localHost}/api/Garage/").Result.Content.ReadAsAsync<List<GarageItem>>().Result;
+                List<GarageItem> garages = httpClient.GetAsync($"https://{aPIUrl}/api/Garage/").Result.Content.ReadAsAsync<List<GarageItem>>().Result;
                 foreach (GarageItem garage in garages)
                 {
 
@@ -558,12 +711,13 @@ namespace SpooderManConsole
             Console.WriteLine("Enter Garage ID");
             int id = GetSafeInterger();
             Console.Write("Connecting.....");
-            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Garage/");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://{aPIUrl}/api/Garage/{id}");
             HttpResponseMessage response = getTask.Result;
             if (response.IsSuccessStatusCode)
             {
                 Console.Clear();
-                GarageItem garage = httpClient.GetAsync($"https://localhost:{localHost}/api/Garage/{id}").Result.Content.ReadAsAsync<GarageItem>().Result;
+                GarageItem garage = httpClient.GetAsync($"https://{aPIUrl}/api/Garage/{id}").Result.Content.ReadAsAsync<GarageItem>().Result;
                 if (garage != null)
                 {
                     Console.WriteLine($" {garage.Name} {garage.Location} {garage.CollectionValue} {garage.CarCollection}");
@@ -589,9 +743,10 @@ namespace SpooderManConsole
             Console.WriteLine("Sending...");
 
             HttpContent newRestHTTP = new FormUrlEncodedContent(newRest);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
 
-            // Needs auth token added
-            Task<HttpResponseMessage> response = httpClient.PostAsync($"https://localhost:{localHost}/api/Garage/", newRestHTTP);
+
+            Task<HttpResponseMessage> response = httpClient.PostAsync($"https://{aPIUrl}/api/Garage/", newRestHTTP);
             if (response.Result.IsSuccessStatusCode) { Console.WriteLine("Success"); }
             else { Console.WriteLine("Fail"); }
             Console.ReadKey();
@@ -603,13 +758,14 @@ namespace SpooderManConsole
             Console.WriteLine("Enter Garage ID to update");
             int id = GetSafeInterger();
             Console.Write("Connecting.....");
-            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Garage/");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://{aPIUrl}/api/Garage/");
             HttpResponseMessage response = getTask.Result;
             GarageItem oldGarage = new GarageItem();
             if (response.IsSuccessStatusCode)
             {
                 Console.Clear();
-                oldGarage = httpClient.GetAsync($"https://localhost:{localHost}/api/Garage/{id}").Result.Content.ReadAsAsync<GarageItem>().Result;
+                oldGarage = httpClient.GetAsync($"https://{aPIUrl}/api/Garage/{id}").Result.Content.ReadAsAsync<GarageItem>().Result;
                 if (oldGarage != null)
                 {
                     Console.WriteLine($" {oldGarage.Name} {oldGarage.Location}");
@@ -618,6 +774,7 @@ namespace SpooderManConsole
 
             }
             Dictionary<string, string> newGarage = new Dictionary<string, string>();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
             newGarage.Add("Id", id.ToString());
 
             Console.Write("Name: ");
@@ -632,7 +789,7 @@ namespace SpooderManConsole
             HttpContent newRestHTTP = new FormUrlEncodedContent(newGarage);
 
             // Needs auth token added
-            Task<HttpResponseMessage> putResponse = httpClient.PutAsync($"https://localhost:{localHost}/api/Garage/", newRestHTTP);
+            Task<HttpResponseMessage> putResponse = httpClient.PutAsync($"https://{aPIUrl}/api/Garage/", newRestHTTP);
             if (putResponse.Result.IsSuccessStatusCode) { Console.WriteLine("Success"); }
             else { Console.WriteLine("Fail"); }
             Console.ReadKey();
@@ -644,20 +801,25 @@ namespace SpooderManConsole
             Console.WriteLine("Enter Garage ID to delete");
             int id = GetSafeInterger();
             Console.Write("Connecting.....");
-            Task<HttpResponseMessage> deleteTask = httpClient.DeleteAsync($"https://localhost:{localHost}/api/Garage/{id}");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+            Task<HttpResponseMessage> deleteTask = httpClient.DeleteAsync($"https://{aPIUrl}/api/Garage/{id}");
             HttpResponseMessage response = deleteTask.Result;
             if (response.IsSuccessStatusCode)
             {
                 Console.WriteLine("Garage deleted");
             }
-            else { Console.WriteLine("Invalid ID"); }
+            else
+            {
+                Console.WriteLine(deleteTask.Result.StatusCode);
+                Console.WriteLine("Invalid ID");
+            }
             Console.ReadKey();
         }
 
         private string GetCarType()
         {
             Console.Write("Type of Car: (1)Compact (2)Minivan (3)Luxury\n" +
-                "(4)Sport (5)SUV (6)Exotic");
+                "(4)Sport (5)SUV (6)Exotic: ");
             while (true)
             {
                 switch (Console.ReadLine())
@@ -684,12 +846,12 @@ namespace SpooderManConsole
             Console.Clear();
             Console.Write("Spoodering.....");
 
-            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Racing/");
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://{aPIUrl}/api/Racing/");
             HttpResponseMessage response = getTask.Result;
             if (response.IsSuccessStatusCode)
             {
                 Console.Clear();
-                List<RacingItem> races = httpClient.GetAsync($"https://localhost:{localHost}/api/Racing/").Result.Content.ReadAsAsync<List<RacingItem>>().Result;
+                List<RacingItem> races = httpClient.GetAsync($"https://{aPIUrl}/api/Racing/").Result.Content.ReadAsAsync<List<RacingItem>>().Result;
                 foreach (RacingItem race in races)
                 {
 
@@ -705,12 +867,12 @@ namespace SpooderManConsole
             Console.WriteLine("Enter Race ID");
             int id = GetSafeInterger();
             Console.Write("Connecting.....");
-            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Racing/{id}");
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://{aPIUrl}/api/Racing/{id}");
             HttpResponseMessage response = getTask.Result;
             if (response.IsSuccessStatusCode)
             {
                 Console.Clear();
-                RacingItem racing = httpClient.GetAsync($"https://localhost:{localHost}/api/Racing/{id}").Result.Content.ReadAsAsync<RacingItem>().Result;
+                RacingItem racing = httpClient.GetAsync($"https://{aPIUrl}/api/Racing/{id}").Result.Content.ReadAsAsync<RacingItem>().Result;
                 if (racing != null)
                 {
                     Console.WriteLine($" {racing.Drivers} {racing.BasedOutOF} {racing.RaceEvent} {racing.TeamName} {racing.Victories}");
@@ -740,7 +902,7 @@ namespace SpooderManConsole
             string victories = GetSafeInterger().ToString();
             newRace.Add("Victories[0]", victories);
 
-            Console.Write("Drivers");
+            Console.Write("Driversj: ");
             string drivers = Console.ReadLine();
             newRace.Add("Drivers", drivers);
 
@@ -753,7 +915,7 @@ namespace SpooderManConsole
             HttpContent newRaceHTTP = new FormUrlEncodedContent(newRace);
 
             // Needs auth token added
-            Task<HttpResponseMessage> response = httpClient.PostAsync($"https://localhost:{localHost}/api/Racing/", newRaceHTTP);
+            Task<HttpResponseMessage> response = httpClient.PostAsync($"https://{aPIUrl}/api/Racing/", newRaceHTTP);
             if (response.Result.IsSuccessStatusCode)
             {
 
@@ -800,13 +962,13 @@ namespace SpooderManConsole
             Console.WriteLine("Enter Race ID to update");
             int id = GetSafeInterger();
             Console.Write("Connecting.....");
-            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Racing/{id}");
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://{aPIUrl}/api/Racing/{id}");
             HttpResponseMessage response = getTask.Result;
             RacingItem oldRacing = new RacingItem();
             if (response.IsSuccessStatusCode)
             {
                 Console.Clear();
-                oldRacing = httpClient.GetAsync($"https://localhost:{localHost}/api/Racing/{id}").Result.Content.ReadAsAsync<RacingItem>().Result;
+                oldRacing = httpClient.GetAsync($"https://{aPIUrl}/api/Racing/{id}").Result.Content.ReadAsAsync<RacingItem>().Result;
                 if (oldRacing != null)
                 {
                     Console.WriteLine($" {oldRacing.ManufacturerID} {oldRacing.TeamName} {oldRacing.BasedOutOF} {oldRacing.Victories}  {oldRacing.Drivers} {oldRacing.RaceEvent}");
@@ -831,7 +993,7 @@ namespace SpooderManConsole
             string basedoutof = Console.ReadLine();
             newRace.Add("BasedOutOf", basedoutof);
 
-            Console.Write("Drivers");
+            Console.Write("Drivers: ");
             string drivers = Console.ReadLine();
             newRace.Add("Drivers", drivers);
 
@@ -844,11 +1006,13 @@ namespace SpooderManConsole
             HttpContent newRaceHTTP = new FormUrlEncodedContent(newRace);
 
             // Needs auth token added
-            Task<HttpResponseMessage> putResponse = httpClient.PutAsync($"https://localhost:{localHost}/api/Racing/{id}", newRaceHTTP);
+            Task<HttpResponseMessage> putResponse = httpClient.PutAsync($"https://{aPIUrl}/api/Racing/{id}", newRaceHTTP);
             if (putResponse.Result.IsSuccessStatusCode) { Console.WriteLine("Success"); }
-            else {
+            else
+            {
                 Console.WriteLine(putResponse.Result.StatusCode);
-                Console.WriteLine("Fail"); }
+                Console.WriteLine("Fail");
+            }
             Console.ReadKey();
         }
 
@@ -858,7 +1022,7 @@ namespace SpooderManConsole
             Console.WriteLine("Enter Racing ID to delete");
             int id = GetSafeInterger();
             Console.Write("Connecting.....");
-            Task<HttpResponseMessage> deleteTask = httpClient.DeleteAsync($"https://localhost:{localHost}/api/Racing/{id}");
+            Task<HttpResponseMessage> deleteTask = httpClient.DeleteAsync($"https://{aPIUrl}/api/Racing/{id}");
             HttpResponseMessage response = deleteTask.Result;
             if (response.IsSuccessStatusCode)
             {
@@ -871,8 +1035,7 @@ namespace SpooderManConsole
 
         public decimal GetSafeDecimal()
         {
-            decimal d;
-            if (decimal.TryParse(Console.ReadLine(), out d))
+            if (decimal.TryParse(Console.ReadLine(), out decimal d))
             {
                 return d;
             }
@@ -884,8 +1047,7 @@ namespace SpooderManConsole
         }
         public int GetSafeInterger()
         {
-            int d;
-            if (int.TryParse(Console.ReadLine(), out d))
+            if (int.TryParse(Console.ReadLine(), out int d))
             {
                 return d;
             }
@@ -896,17 +1058,17 @@ namespace SpooderManConsole
             }
         }
 
-        public int GetSafeLocalHost()
+        public string GetSafeLocalHost()
         {
-            int d;
-            if (int.TryParse(Console.ReadLine(), out d))
+            if (int.TryParse(Console.ReadLine(), out int d))
             {
-                return d;
+                string e = $"localhost:{d}";
+                return e;
             }
             else
             {
                 Console.WriteLine("Invalid entry, default value of 44336 used");
-                return 44336;
+                return "localhost:44336";
             }
         }
 
