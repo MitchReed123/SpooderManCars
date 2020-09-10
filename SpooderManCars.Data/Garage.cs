@@ -14,22 +14,26 @@ namespace SpooderManCars.Data
         public string Name { get; set; }
         public Guid CollectorId { get; set; }
         public string Location { get; set; }
-        public ICollection<Car> CarCollection { get; set; }
+        public IEnumerable<Car> CarCollection { get; set; }
         public decimal CollectionValue
         {
             get
             {
-                var cars = CarCollection;
-
-                decimal total = 0;
-                foreach (Car car in cars)
-                {
-                    total += car.CarValue;
-                }
-                return total;
+                return GetTotalValue(CarCollection);
             }
-            set { }
         }
+
+        private decimal GetTotalValue(IEnumerable<Car> cars)
+        {
+            decimal total = 0;
+            foreach (Car car in cars)
+            {
+                total += car.CarValue;
+            }
+            return total;
+
+        }
+
     }
 }
 

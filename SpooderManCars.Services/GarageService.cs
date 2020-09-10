@@ -42,7 +42,6 @@ namespace SpooderManCars.Services
                     Id = g.Id,
                     Name = g.Name,
                     Location = g.Location,
-                    CollectionValue = g.CollectionValue,
                     CarCollection = g.CarCollection.Select(c => new CarItem
                     {
                         Id = c.Id,
@@ -69,7 +68,6 @@ namespace SpooderManCars.Services
                     Id = query.Id,
                     Name = query.Name,
                     Location = query.Location,
-                    CollectionValue = query.CollectionValue,
                     CarCollection = query.CarCollection.Select(c => new CarItem
                     {
                         Id = c.Id,

@@ -7,13 +7,13 @@ namespace SpooderManCars.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.0-30225")]
-    public sealed partial class Asyncssss : IMigrationMetadata
+    public sealed partial class AnotherFix : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Asyncssss));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AnotherFix));
         
         string IMigrationMetadata.Id
         {
-            get { return "202009082033383_Asyncssss"; }
+            get { return "202009101824404_AnotherFix"; }
         }
         
         string IMigrationMetadata.Source
