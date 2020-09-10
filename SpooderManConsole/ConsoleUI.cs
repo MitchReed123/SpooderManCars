@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Net.Http.Formatting;
 using SpooderManCars.Models.ManufacturerModels;
 using SpooderManCars.Models;
+using SpooderManCars.Models.RacingModels;
 
 namespace SpooderManConsole
 {
@@ -111,23 +112,28 @@ namespace SpooderManConsole
                     DeleteACar();
                     break;
                 case "6":
-                    break;
-                case "7":
-                case "8":
                     AddAManfacturer();
                     break;
-                case "9":
+                case "7":
                     UpdateAManufacturer();
                     break;
-                case "10":
+                case "8":
                     DeleteAManufacturer();
                     break;
-                case "11":
+                case "9":
                     ViewAManufacturer();
                     break;
+                case "10":
+                    AddRaces();
+                    break;
+                case "11":
+                    GetRaces();
+                    break;
                 case "12":
+                    UpdateRaces();
                     break;
                 case "13":
+                    DeleteRaces();
                     break;
                 case "14":
                     break;
@@ -672,6 +678,197 @@ namespace SpooderManConsole
                 Console.WriteLine("Invalid selection. Please try again");
             }
         }
+
+        public void GetRaces()
+        {
+            Console.Clear();
+            Console.Write("Spoodering.....");
+
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Racing/");
+            HttpResponseMessage response = getTask.Result;
+            if (response.IsSuccessStatusCode)
+            {
+                Console.Clear();
+                List<RacingItem> races = httpClient.GetAsync($"https://localhost:{localHost}/api/Racing/").Result.Content.ReadAsAsync<List<RacingItem>>().Result;
+                foreach (RacingItem race in races)
+                {
+
+                    Console.WriteLine($" {race.Id}  {race.RaceEvent} {race.TeamName} {race.BasedOutOF} {race.Drivers} {race.Victories.Count}");
+                }
+            }
+            Console.ReadKey();
+        }
+
+        public void GetRacesId()
+        {
+            Console.Clear();
+            Console.WriteLine("Enter Race ID");
+            int id = GetSafeInterger();
+            Console.Write("Connecting.....");
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Racing/{id}");
+            HttpResponseMessage response = getTask.Result;
+            if (response.IsSuccessStatusCode)
+            {
+                Console.Clear();
+                RacingItem racing = httpClient.GetAsync($"https://localhost:{localHost}/api/Racing/{id}").Result.Content.ReadAsAsync<RacingItem>().Result;
+                if (racing != null)
+                {
+                    Console.WriteLine($" {racing.Drivers} {racing.BasedOutOF} {racing.RaceEvent} {racing.TeamName} {racing.Victories}");
+                }
+                else { Console.WriteLine("Invalid ID"); }
+
+            }
+            Console.ReadKey();
+        }
+        public void AddRaces()
+        {
+            Console.Clear();
+            Dictionary<string, string> newRace = new Dictionary<string, string>();
+            Console.Write("Manufacturer Id: ");
+            string manufacturerId = GetSafeInterger().ToString();
+            newRace.Add("ManufacturerId", manufacturerId);
+
+            Console.Write("Team Name: ");
+            string teamName = Console.ReadLine();
+            newRace.Add("TeamName", teamName);
+
+            Console.Write("Based Out Of: ");
+            string basedoutof = Console.ReadLine();
+            newRace.Add("BasedOutOf", basedoutof);
+
+            Console.Write("Victories: ");
+            string victories = GetSafeInterger().ToString();
+            newRace.Add("Victories[0]", victories);
+
+            Console.Write("Drivers");
+            string drivers = Console.ReadLine();
+            newRace.Add("Drivers", drivers);
+
+            string raceType = GetRaceType();
+            newRace.Add("RaceEvent", raceType);
+
+            Console.Clear();
+            Console.WriteLine("Sending...");
+
+            HttpContent newRaceHTTP = new FormUrlEncodedContent(newRace);
+
+            // Needs auth token added
+            Task<HttpResponseMessage> response = httpClient.PostAsync($"https://localhost:{localHost}/api/Racing/", newRaceHTTP);
+            if (response.Result.IsSuccessStatusCode)
+            {
+
+                Console.WriteLine("Success");
+            }
+            else
+            {
+                Console.WriteLine(response.Result.StatusCode);
+                Console.WriteLine("Fail");
+            }
+            Console.ReadKey();
+        }
+
+        private string GetRaceType()
+        {
+            Console.Write("Type of Race:\n" +
+                "(1)F1\n" +
+                "(2)Nascar\n" +
+                "(3)IndyCar\n" +
+                "(4)Drag Racing\n" +
+                "(5)SportsCarChampionship\n ");
+            while (true)
+            {
+                switch (Console.ReadLine())
+                {
+                    case "1":
+                        return "F1";
+                    case "2":
+                        return "Nascar";
+                    case "3":
+                        return "IndyCar";
+                    case "4":
+                        return "DragRacing";
+                    case "5":
+                        return "SportsCarChamptionship";
+                }
+                Console.WriteLine("Invalid selection. Please try again");
+            }
+        }
+
+        public void UpdateRaces()
+        {
+            Console.Clear();
+            Console.WriteLine("Enter Race ID to update");
+            int id = GetSafeInterger();
+            Console.Write("Connecting.....");
+            Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://localhost:{localHost}/api/Racing/{id}");
+            HttpResponseMessage response = getTask.Result;
+            RacingItem oldRacing = new RacingItem();
+            if (response.IsSuccessStatusCode)
+            {
+                Console.Clear();
+                oldRacing = httpClient.GetAsync($"https://localhost:{localHost}/api/Racing/{id}").Result.Content.ReadAsAsync<RacingItem>().Result;
+                if (oldRacing != null)
+                {
+                    Console.WriteLine($" {oldRacing.ManufacturerID} {oldRacing.TeamName} {oldRacing.BasedOutOF} {oldRacing.Victories}  {oldRacing.Drivers} {oldRacing.RaceEvent}");
+                }
+                else { Console.WriteLine("Invalid ID"); }
+            }
+            Console.Clear();
+            Dictionary<string, string> newRace = new Dictionary<string, string>();
+
+            string Id = id.ToString();
+            newRace.Add("Id", Id);
+
+            Console.Write("Manufacturer Id: ");
+            string manufacturerId = GetSafeInterger().ToString();
+            newRace.Add("ManufacturerId", manufacturerId);
+
+            Console.Write("Team Name: ");
+            string teamName = Console.ReadLine();
+            newRace.Add("TeamName", teamName);
+
+            Console.Write("Based Out Of: ");
+            string basedoutof = Console.ReadLine();
+            newRace.Add("BasedOutOf", basedoutof);
+
+            Console.Write("Drivers");
+            string drivers = Console.ReadLine();
+            newRace.Add("Drivers", drivers);
+
+            string raceType = GetRaceType();
+            newRace.Add("RaceEvent", raceType);
+
+            Console.Clear();
+            Console.WriteLine("Sending...");
+
+            HttpContent newRaceHTTP = new FormUrlEncodedContent(newRace);
+
+            // Needs auth token added
+            Task<HttpResponseMessage> putResponse = httpClient.PutAsync($"https://localhost:{localHost}/api/Racing/{id}", newRaceHTTP);
+            if (putResponse.Result.IsSuccessStatusCode) { Console.WriteLine("Success"); }
+            else {
+                Console.WriteLine(putResponse.Result.StatusCode);
+                Console.WriteLine("Fail"); }
+            Console.ReadKey();
+        }
+
+        public void DeleteRaces()
+        {
+            Console.Clear();
+            Console.WriteLine("Enter Racing ID to delete");
+            int id = GetSafeInterger();
+            Console.Write("Connecting.....");
+            Task<HttpResponseMessage> deleteTask = httpClient.DeleteAsync($"https://localhost:{localHost}/api/Racing/{id}");
+            HttpResponseMessage response = deleteTask.Result;
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Team deleted");
+            }
+            else { Console.WriteLine("Invalid ID"); }
+            Console.ReadKey();
+        }
+
+
         public decimal GetSafeDecimal()
         {
             decimal d;
