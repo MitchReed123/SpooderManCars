@@ -11,11 +11,11 @@ namespace SpooderManCars.Services
 {
     public class RacingService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context = new ApplicationDbContext();
         private readonly Guid _userId;
-        public RacingService(Guid UserId)
+        public RacingService()
         {
-            _userId = UserId;
+           
         }
 
         public async Task<bool> CreateATeam(RacingCreate model)
@@ -24,7 +24,6 @@ namespace SpooderManCars.Services
             {
                 BasedOutOF = model.BasedOutOF,
                 Drivers = model.Drivers,
-                Manufacturer = model.Manufacturer,
                 RaceEvent = model.RaceEvent,
                 TeamName = model.TeamName,
                 Victories = model.Victories,

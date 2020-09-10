@@ -16,7 +16,6 @@ namespace SpooderManCars.Data
         [ForeignKey(nameof(Manufacturer))]
         public int ManufacturerID { get; set; }
         public virtual Manufacturer Manufacturer { get; set; }
-
         public string TeamName { get; set; }
         public string BasedOutOF { get; set; }
         public List<int> Victories { get; set; } = new List<int>();

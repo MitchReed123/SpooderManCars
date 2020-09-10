@@ -10,9 +10,9 @@ namespace SpooderManCars.Models.RacingModels
 {
     public class RacingCreate
     {
-        [ForeignKey(nameof(Manufacturer))]
+        //[ForeignKey(nameof(Manufacturer))]
         public int ManufacturerID { get; set; }
-        public virtual Manufacturer Manufacturer { get; set; }
+        //public virtual Manufacturer Manufacturer { get;  }
         public string TeamName { get; set; }
         public string BasedOutOF { get; set; }
         public List<int> Victories { get; set; } = new List<int>();
