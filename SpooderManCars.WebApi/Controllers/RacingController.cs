@@ -8,6 +8,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -26,7 +27,8 @@ namespace SpooderManCars.WebApi.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> GetAllTeams()
         {
-            List<Racing> racings = await _content.Racings.ToListAsync();
+            RacingService racingService = CreateRaceService();
+            var racings = await racingService.GetRaces();
             return Ok(racings);
         }
         [HttpPost]
@@ -52,7 +54,7 @@ namespace SpooderManCars.WebApi.Controllers
             return NotFound();
         }
         [HttpPut]
-        public async Task<IHttpActionResult> UpdateTeams([FromUri] int id, [FromBody] Racing model)
+        public async Task<IHttpActionResult> UpdateTeams([FromUri] int id, [FromBody] RacingEdit model)
         {
             if (ModelState.IsValid)
             {

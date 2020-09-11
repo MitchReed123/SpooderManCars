@@ -42,7 +42,6 @@ namespace SpooderManCars.WebApi.Controllers
         {
             GarageService garageService = CreateGarageService();
             var garages = await garageService.GetAllGarages();
-            //List<Garage> garages = await _content.Garages.ToListAsync();
             return Ok(garages);
         }
         [HttpGet]

@@ -15,7 +15,15 @@ namespace SpooderManCars.Models.RacingModels
         //public virtual Manufacturer Manufacturer { get;  }
         public string TeamName { get; set; }
         public string BasedOutOF { get; set; }
-        public List<int> Victories { get; set; } = new List<int>();
+        public string Drivers { get; set; }
+        public RaceEvent RaceEvent { get; set; }
+    }
+    public class RacingEdit
+    {
+        public int Id { get; set; }
+        public int ManufacturerID { get; set; }
+        public string TeamName { get; set; }
+        public string BasedOutOF { get; set; }
         public string Drivers { get; set; }
         public RaceEvent RaceEvent { get; set; }
     }

@@ -34,20 +34,33 @@ namespace SpooderManCars.Services
             _context.Garages.Add(entity);
             return await _context.SaveChangesAsync() == 1;
         }
-
-        public async Task<IEnumerable<GarageItem>> GetAllGarages()
+        public async Task<List<GarageItem>> GetAllGarages()
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var query = await ctx.Garages.Where(g => g.CollectorId == _userId)
-                .Select(g => new GarageItem
-                {
-                    Id = g.Id,
-                    Name = g.Name,
-                    Location = g.Location,
-                    CarCollection = GetCarItem(g.CarCollection)
-                }).ToArrayAsync();
-                return query;
+                var queryT = await ctx.Garages.Select(
+                    e =>
+                    new GarageItem
+                    {
+                        Id = e.Id,
+                        Name = e.Name,
+                        Location = e.Location,
+                        CarCollection = e.CarCollection.Select(r => new CarItem
+                        {
+                            Id = r.Id,
+                            ManufacturerId = r.ManufacturerId,
+                            GarageId = r.GarageId,
+                            OwnerID = r.OwnerID,
+                            Make = r.Make,
+                            Model = r.Model,
+                            Year = r.Year,
+                            CarType = r.CarType,
+                            Transmission = r.Transmission,
+                            CarValue = r.CarValue,
+                        }),
+                    }
+                    ).ToListAsync();
+                return queryT;
             }
         }
 
@@ -73,15 +86,35 @@ namespace SpooderManCars.Services
 
         public async Task<GarageItem> GetGarageById(int id)
         {
-            var query = await _context.Garages.SingleAsync(g => g.CollectorId == _userId && g.Id == id);
-            return
-                new GarageItem
-                {
-                    Id = query.Id,
-                    Name = query.Name,
-                    Location = query.Location,
-                    CarCollection = GetCarItem(query.CarCollection)
-                };
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity = await
+                    ctx
+                        .Garages
+                        .SingleAsync(e => e.Id == id && e.CollectorId == _userId);
+              
+                var garageItem =  new GarageItem
+                    {
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        Location = entity.Location,
+                        CarCollection = entity.CarCollection.Select(r => new CarItem
+                        {
+                            Id = r.Id,
+                            ManufacturerId = r.ManufacturerId,
+                            GarageId = r.GarageId,
+                            OwnerID = r.OwnerID,
+                            Make = r.Make,
+                            Model = r.Model,
+                            Year = r.Year,
+                            CarType = r.CarType,
+                            Transmission = r.Transmission,
+                            CarValue = r.CarValue,
+                        }).ToList()
+                    };
+                return garageItem;
+
+            }
         }
 
         public async Task<bool> UpdateGarage(GarageEdit model)

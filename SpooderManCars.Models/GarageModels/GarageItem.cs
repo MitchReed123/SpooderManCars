@@ -20,19 +20,13 @@ namespace SpooderManCars.Models
         {
             get
             {
-                return GetTotalValue(CarCollection);
+                decimal testing = 0m;
+                foreach (var item in CarCollection)
+                {
+                    testing += item.CarValue;
+                }
+                return testing;
             }
-        }
-
-        private decimal GetTotalValue(IEnumerable<CarItem> cars)
-        {
-            decimal total = 0;
-            foreach (CarItem car in cars)
-            {
-                total += car.CarValue;
-            }
-            return total;
-
         }
     }
 }
