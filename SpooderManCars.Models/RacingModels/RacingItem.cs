@@ -1,4 +1,5 @@
 ﻿using SpooderManCars.Data;
+using SpooderManCars.Models.ManufacturerModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,10 +15,9 @@ namespace SpooderManCars.Models.RacingModels
 
         [ForeignKey(nameof(Manufacturer))]
         public int ManufacturerID { get; set; }
-        public virtual Manufacturer Manufacturer { get; set; }
+        public RacingViewManufacturerListItem Manufacturer { get; set; }
         public string TeamName { get; set; }
         public string BasedOutOF { get; set; }
-        public List<int> Victories { get; set; } = new List<int>();
         public string Drivers { get; set; }
         public RaceEvent RaceEvent { get; set; }
     }

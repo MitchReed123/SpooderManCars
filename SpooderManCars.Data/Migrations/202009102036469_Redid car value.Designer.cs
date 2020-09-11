@@ -7,18 +7,18 @@ namespace SpooderManCars.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.0-30225")]
-    public sealed partial class Ellclkaje : IMigrationMetadata
+    public sealed partial class Redidcarvalue : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Ellclkaje));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Redidcarvalue));
         
         string IMigrationMetadata.Id
         {
-            get { return "202009081855596_Ellclkaje"; }
+            get { return "202009102036469_Redid car value"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return Resources.GetString("Source"); }
+            get { return null; }
         }
         
         string IMigrationMetadata.Target

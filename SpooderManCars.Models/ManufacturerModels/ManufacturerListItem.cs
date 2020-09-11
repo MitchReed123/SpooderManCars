@@ -13,7 +13,14 @@ namespace SpooderManCars.Models.ManufacturerModels
         public int Id { get; set; }
         public string CompanyName { get; set; }
         public string Locations { get; set; }
-        public IEnumerable<CarItem> Cars { get; set; }
+        public virtual IEnumerable<CarItem> Cars { get; set; }
+        public DateTime Founded { get; set; }
+    }
+    public class RacingViewManufacturerListItem
+    {
+        public int Id { get; set; }
+        public string CompanyName { get; set; }
+        public string Locations { get; set; }
         public DateTime Founded { get; set; }
     }
 }

@@ -14,7 +14,6 @@ namespace SpooderManCars.Models.CarModels
         public int ManufacturerId { get; set; }
         [Required]
         public int GarageId { get; set; }
-
         [Required]
         public string Make { get; set; }
         [Required]

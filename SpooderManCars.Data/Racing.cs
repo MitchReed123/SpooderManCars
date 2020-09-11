@@ -18,7 +18,6 @@ namespace SpooderManCars.Data
         public virtual Manufacturer Manufacturer { get; set; }
         public string TeamName { get; set; }
         public string BasedOutOF { get; set; }
-        public List<int> Victories { get; set; } = new List<int>();
         public string Drivers { get; set; }
         public RaceEvent RaceEvent { get; set; }
         

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.CodeDom;
 
 namespace SpooderManCars.Services
 {
@@ -33,57 +34,87 @@ namespace SpooderManCars.Services
             _context.Garages.Add(entity);
             return await _context.SaveChangesAsync() == 1;
         }
-
-        public async Task<IEnumerable<GarageItem>> GetAllGarages()
+        public async Task<List<GarageItem>> GetAllGarages()
         {
-            var query = await _context.Garages.Where(g => g.CollectorId == _userId)
-                .Select(g => new GarageItem
-                {
-                    Id = g.Id,
-                    Name = g.Name,
-                    Location = g.Location,
-                    CollectionValue = g.CollectionValue,
-                    CarCollection = g.CarCollection.Select(c => new CarItem
+            using (var ctx = new ApplicationDbContext())
+            {
+                var queryT = await ctx.Garages.Select(
+                    e =>
+                    new GarageItem
                     {
-                        Id = c.Id,
-                        ManufacturerId = c.ManufacturerId,
-                        GarageId = c.GarageId,
-                        OwnerID = c.OwnerID,
-                        Make = c.Make,
-                        Model = c.Model,
-                        Year = c.Year,
-                        CarType = c.CarType,
-                        Transmission = c.Transmission,
-                        CarValue = c.CarValue
-                    })
-                }).ToArrayAsync();
-            return query;
+                        Id = e.Id,
+                        Name = e.Name,
+                        Location = e.Location,
+                        CarCollection = e.CarCollection.Select(r => new CarItem
+                        {
+                            Id = r.Id,
+                            ManufacturerId = r.ManufacturerId,
+                            GarageId = r.GarageId,
+                            OwnerID = r.OwnerID,
+                            Make = r.Make,
+                            Model = r.Model,
+                            Year = r.Year,
+                            CarType = r.CarType,
+                            Transmission = r.Transmission,
+                            CarValue = r.CarValue,
+                        }),
+                    }
+                    ).ToListAsync();
+                return queryT;
+            }
         }
+
+        public IEnumerable<CarItem> GetCarItem(IEnumerable<Car> cars)
+        {
+            return cars.Select(c => new CarItem
+            {
+                Id = c.Id,
+                ManufacturerId = c.ManufacturerId,
+                Manufacturer = c.Manufacturer,
+                GarageId = c.GarageId,
+                Garage = c.Garage,
+                OwnerID = c.OwnerID,
+                Make = c.Make,
+                Model = c.Model,
+                Year = c.Year,
+                CarType = c.CarType,
+                Transmission = c.Transmission,
+                CarValue = c.CarValue
+            });
+        }
+
 
         public async Task<GarageItem> GetGarageById(int id)
         {
-            var query = await _context.Garages.SingleAsync(g => g.CollectorId == _userId && g.Id == id);
-            return
-                new GarageItem
-                {
-                    Id = query.Id,
-                    Name = query.Name,
-                    Location = query.Location,
-                    CollectionValue = query.CollectionValue,
-                    CarCollection = query.CarCollection.Select(c => new CarItem
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity = await
+                    ctx
+                        .Garages
+                        .SingleAsync(e => e.Id == id && e.CollectorId == _userId);
+              
+                var garageItem =  new GarageItem
                     {
-                        Id = c.Id,
-                        ManufacturerId = c.ManufacturerId,
-                        GarageId = c.GarageId,
-                        OwnerID = c.OwnerID,
-                        Make = c.Make,
-                        Model = c.Model,
-                        Year = c.Year,
-                        CarType = c.CarType,
-                        Transmission = c.Transmission,
-                        CarValue = c.CarValue
-                    })
-                };
+                        Id = entity.Id,
+                        Name = entity.Name,
+                        Location = entity.Location,
+                        CarCollection = entity.CarCollection.Select(r => new CarItem
+                        {
+                            Id = r.Id,
+                            ManufacturerId = r.ManufacturerId,
+                            GarageId = r.GarageId,
+                            OwnerID = r.OwnerID,
+                            Make = r.Make,
+                            Model = r.Model,
+                            Year = r.Year,
+                            CarType = r.CarType,
+                            Transmission = r.Transmission,
+                            CarValue = r.CarValue,
+                        }).ToList()
+                    };
+                return garageItem;
+
+            }
         }
 
         public async Task<bool> UpdateGarage(GarageEdit model)
@@ -106,7 +137,7 @@ namespace SpooderManCars.Services
                     var entity = ctx.Garages.Single(g => g.Id == garageId && g.CollectorId == _userId);
                     ctx.Garages.Remove(entity);
 
-                    return await _context.SaveChangesAsync() == 1;
+                    return await ctx.SaveChangesAsync() == 1;
                 }
             }
 
