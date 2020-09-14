@@ -16,7 +16,7 @@ namespace SpooderManCars.Models.ManufacturerModels
         public string CompanyName { get; set; }
         public string Locations { get; set; }
         [Display(Name = "Car Collection")]
-        public virtual IEnumerable<CarItem> Cars { get; set; }
+        public virtual IEnumerable<CarItem> ManufactureredCars { get; set; }
         public DateTime Founded { get; set; }
     }
 }

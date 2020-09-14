@@ -78,7 +78,7 @@ namespace SpooderManConsole
             bool properChoice = false;
             while (!properChoice)
             {
-            Console.Clear();
+                Console.Clear();
                 Console.WriteLine("Welcome to the SpooderMan Cars collection database\n" +
                     "Which set of objects would you want to interact with?\n" +
                     "1. Manufacturers\n" +
@@ -149,7 +149,7 @@ namespace SpooderManConsole
             switch (input)
             {
                 case "M1":
-                    ViewAllManufacturer();
+                    ViewAllManufacturers();
                     break;
                 case "M2":
                     ViewAManufacturer();
@@ -309,7 +309,7 @@ namespace SpooderManConsole
         {
             //Register test account for first time runners
             Console.Clear();
-            Console.WriteLine("Setting up testing account");
+            Console.Write("Setting up testing account ");
             HttpClient httpClient = new HttpClient();
             Dictionary<string, string> register = new Dictionary<string, string>()
             {
@@ -322,6 +322,7 @@ namespace SpooderManConsole
             var registerInfo = new HttpRequestMessage(HttpMethod.Post, $"https://{aPIUrl}/api/Account/Register");
             registerInfo.Content = new FormUrlEncodedContent(register.AsEnumerable());
             var response = await httpClient.SendAsync(registerInfo);
+            Console.WriteLine("");
             if (response.IsSuccessStatusCode)
             {
                 Console.WriteLine("New Tester Registered");
@@ -379,11 +380,11 @@ namespace SpooderManConsole
             if (response.IsSuccessStatusCode)
             {
                 Console.Clear();
-                Console.WriteLine("Car ID   Make    Model     Year     Car Type     Transmission Size     Manufacturer");
+                Console.WriteLine($"{"Car ID",7}{"Make",7}{"Model",11}{"Year",14}{"Car Type",11}{"Transmission Size",20}{"Garage",7}{"Manufacturer",16}");
                 List<CarItem> cars = httpClient.GetAsync($"https://{aPIUrl}/api/Car/").Result.Content.ReadAsAsync<List<CarItem>>().Result;
                 foreach (CarItem car in cars)
                 {
-                    Console.WriteLine($"{car.Id,-3} {car.Make,-8} {car.Model,-8} {car.Year,-6} {car.CarType, -8} {car.Transmission, -8} {car.Manufacturer.CompanyName}");
+                    Console.WriteLine($"{car.Id,5}  {car.Make,-12} {car.Model,-14}  {car.Year,4}  {car.CarType,-10} {car.Transmission,-18} {car.GarageId,3} {car.Manufacturer.CompanyName}");
                 }
             }
             Console.ReadKey();
@@ -403,7 +404,8 @@ namespace SpooderManConsole
                 CarItem car = httpClient.GetAsync($"https://{aPIUrl}/api/Car/{id}").Result.Content.ReadAsAsync<CarItem>().Result;
                 if (car != null)
                 {
-                    Console.WriteLine($"{car.Id, -3} {car.Make, -8} {car.Model, -8} {car.Year,-6} {car.Transmission}");
+                    Console.WriteLine($"{"Car ID",7}{"Make",7}{"Model",11}{"Year",14}{"Car Type",11}{"Transmission Size",20}{"Manufacturer",16}");
+                    Console.WriteLine($"{car.Id,5}  {car.Make,-12} {car.Model,-14}  {car.Year,4}  {car.CarType,-10} {car.Transmission,-18} {car.Manufacturer.CompanyName}");
                 }
                 else { Console.WriteLine("Invalid ID"); }
 
@@ -465,61 +467,60 @@ namespace SpooderManConsole
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
             Task<HttpResponseMessage> getTask = httpClient.GetAsync($"https://{aPIUrl}/api/Car/");
             HttpResponseMessage response = getTask.Result;
-            CarItem oldCar = new CarItem();
             if (response.IsSuccessStatusCode)
             {
                 Console.Clear();
-                oldCar = httpClient.GetAsync($"https://{aPIUrl}/api/Car/{id}").Result.Content.ReadAsAsync<CarItem>().Result;
+                CarItem oldCar = httpClient.GetAsync($"https://{aPIUrl}/api/Car/{id}").Result.Content.ReadAsAsync<CarItem>().Result;
                 if (oldCar != null)
                 {
-                    Console.WriteLine($"{oldCar.Id,-3} {oldCar.Make,-8} {oldCar.Model,-8} {oldCar.Year,-6} {oldCar.Transmission}");
+                    Console.WriteLine($"{"Car ID",7}{"Make",7}{"Model",11}{"Year",14}{"Car Type",11}{"Transmission Size",20}{"Manufacturer",16}");
+                    Console.WriteLine($"{oldCar.Id,5}  {oldCar.Make,-12} {oldCar.Model,-14}  {oldCar.Year,4}  {oldCar.CarType,-10} {oldCar.Transmission,-18} {oldCar.Manufacturer.CompanyName}\n");
+                    
+                    Dictionary<string, string> newCar = new Dictionary<string, string>();
+                    newCar.Add("Id", id.ToString());
+                    Console.WriteLine("Input new car information");
+                    Console.Write("Manufacturer Id: ");
+                    string manufacturerId = GetSafeInterger().ToString();
+                    newCar.Add("ManufacturerId", manufacturerId);
+
+                    Console.Write("Garage Id: ");
+                    string garageId = GetSafeInterger().ToString();
+                    newCar.Add("GarageId", garageId);
+
+                    Console.Write("Car make: ");
+                    string make = Console.ReadLine();
+                    newCar.Add("Make", make);
+                    Console.Write("Car model: ");
+                    string model = Console.ReadLine();
+                    newCar.Add("Model", model);
+
+                    Console.Write("Year: ");
+                    string year = Console.ReadLine();
+                    newCar.Add("Year", year);
+
+                    string carType = GetCarType();
+                    newCar.Add("CarType", carType);
+
+                    Console.Write("Transmission size: ");
+                    string tranny = Console.ReadLine();
+                    newCar.Add("Transmission", tranny);
+
+                    Console.Write("Car value: $");
+                    decimal value = GetSafeDecimal();
+                    newCar.Add("CarValue", value.ToString());
+
+                    Console.Clear();
+                    Console.WriteLine("Sending...");
+
+                    HttpContent newRestHTTP = new FormUrlEncodedContent(newCar);
+                    Task<HttpResponseMessage> putResponse = httpClient.PutAsync($"https://{aPIUrl}/api/Car/", newRestHTTP);
+                    Console.WriteLine(putResponse.Result.StatusCode);
+                    if (putResponse.Result.IsSuccessStatusCode) { Console.WriteLine("Success"); }
+                    else { Console.WriteLine("Failed to save"); }
                 }
                 else { Console.WriteLine("Invalid ID"); }
 
             }
-            Dictionary<string, string> newCar = new Dictionary<string, string>();
-            newCar.Add("Id", id.ToString());
-
-            Console.Write("Manufacturer Id: ");
-            string manufacturerId = GetSafeInterger().ToString();
-            newCar.Add("ManufacturerId", manufacturerId);
-
-            Console.Write("Garage Id: ");
-            string garageId = GetSafeInterger().ToString();
-            newCar.Add("GarageId", garageId);
-
-            Console.Write("Car make: ");
-            string make = Console.ReadLine();
-            newCar.Add("Make", make);
-            Console.Write("Car model: ");
-            string model = Console.ReadLine();
-            newCar.Add("Model", model);
-
-            Console.Write("Year: ");
-            string year = Console.ReadLine();
-            newCar.Add("Year", year);
-
-            string carType = GetCarType();
-            newCar.Add("CarType", carType);
-
-            Console.Write("Transmission size: ");
-            string tranny = Console.ReadLine();
-            newCar.Add("Transmission", tranny);
-
-            Console.Write("Car value: $");
-            decimal value = GetSafeDecimal();
-            newCar.Add("CarValue", value.ToString());
-
-            Console.Clear();
-            Console.WriteLine("Sending...");
-
-            HttpContent newRestHTTP = new FormUrlEncodedContent(newCar);
-            // Needs auth token added
-
-            Task<HttpResponseMessage> putResponse = httpClient.PutAsync($"https://{aPIUrl}/api/Car/", newRestHTTP);
-            Console.WriteLine(putResponse.Result.StatusCode);
-            if (putResponse.Result.IsSuccessStatusCode) { Console.WriteLine("Success"); }
-            else { Console.WriteLine("Fail"); }
             Console.ReadKey();
         }
 
@@ -539,7 +540,8 @@ namespace SpooderManConsole
             else { Console.WriteLine("Invalid ID"); }
             Console.ReadKey();
         }
-        public void ViewAllManufacturer() //Get
+
+        public void ViewAllManufacturers() //Get
         {
             Console.Clear();
             Console.Write("Connecting.....");
@@ -550,10 +552,10 @@ namespace SpooderManConsole
             {
                 Console.Clear();
                 List<ManufacturerListItem> manufacturers = httpClient.GetAsync($"https://{aPIUrl}/api/Manufacturer/").Result.Content.ReadAsAsync<List<ManufacturerListItem>>().Result;
+                Console.WriteLine($" {"Id",4}   {"Company Name",-21} {"Founded",-18}{"Locations"}");
                 foreach (ManufacturerListItem manufacturer in manufacturers)
                 {
-
-                    Console.WriteLine($" {manufacturer.Id,-3} {manufacturer.CompanyName} {manufacturer.Locations} {manufacturer.Founded}");
+                    Console.WriteLine($" {manufacturer.Id,4}    {manufacturer.CompanyName,-20} {manufacturer.Founded.ToShortDateString(),10}    {manufacturer.Locations}");
                 }
             }
             Console.ReadKey();
@@ -573,10 +575,12 @@ namespace SpooderManConsole
                 ManufacturerListItem manufacturer = httpClient.GetAsync($"https://{aPIUrl}/api/Manufacturer/{id}").Result.Content.ReadAsAsync<ManufacturerListItem>().Result;
                 if (manufacturer != null)
                 {
-                    Console.WriteLine($" {manufacturer.Id} {manufacturer.CompanyName} {manufacturer.Locations} {manufacturer.Founded}");
-                    foreach (var car in manufacturer.Cars)
+                    Console.WriteLine($" {"Manufacturer Id",5} {"Company Name",-20} {"Founded",-6} {"Locations"}");
+                    Console.WriteLine($" {manufacturer.Id,4} {manufacturer.CompanyName,-20} {manufacturer.Founded.Year,4} {manufacturer.Locations}\n Cars Manufacturered:\n");
+                    Console.WriteLine($"{"Car ID",7}{"Make",7}{"Model",11}{"Year",14}{"Car Type",11}{"Transmission Size",20}{"Garage Id",16}");
+                    foreach (var car in manufacturer.ManufactureredCars)
                     {
-                        Console.WriteLine($"{car.Id,-3} {car.Make,-8} {car.Model,-8} {car.Year,-6} {car.Transmission}");
+                        Console.WriteLine($"{car.Id,5}  {car.Make,-12} {car.Model,-14}  {car.Year,4}  {car.CarType,-10} {car.Transmission,-18} {car.GarageId,13}");
                     }
                 }
                 else { Console.WriteLine("Invalid ID"); }
@@ -590,9 +594,6 @@ namespace SpooderManConsole
         {
             Console.Clear();
             Dictionary<string, string> newRest = new Dictionary<string, string>();
-            //Console.Write("Manufacturer Id: ");
-            //string manufacturerId = GetSafeInterger().ToString();
-            //newRest.Add("ManufacturerId", manufacturerId);
 
             Console.Write("Company Name: ");
             string companyName = Console.ReadLine();
@@ -611,8 +612,6 @@ namespace SpooderManConsole
             Console.WriteLine("Sending...");
 
             HttpContent newRestHTTP = new FormUrlEncodedContent(newRest);
-
-            // Needs auth token added
             Task<HttpResponseMessage> response = httpClient.PostAsync($"https://{aPIUrl}/api/Manufacturer/", newRestHTTP);
             if (response.Result.IsSuccessStatusCode) { Console.WriteLine("Success"); }
             else
@@ -856,7 +855,7 @@ namespace SpooderManConsole
                 foreach (RacingItem race in races)
                 {
 
-                    Console.WriteLine($"{race.Id, -4}  {race.RaceEvent} {race.TeamName} {race.BasedOutOF} {race.Drivers}");
+                    Console.WriteLine($"{race.Id,-4}  {race.RaceEvent} {race.TeamName} {race.BasedOutOF} {race.Drivers}");
                 }
             }
             Console.ReadKey();
@@ -968,7 +967,7 @@ namespace SpooderManConsole
                 oldRacing = httpClient.GetAsync($"https://{aPIUrl}/api/Racing/{id}").Result.Content.ReadAsAsync<RacingItem>().Result;
                 if (oldRacing != null)
                 {
-                    Console.WriteLine($" {oldRacing.ManufacturerID, -4} {oldRacing.TeamName} {oldRacing.BasedOutOF}  {oldRacing.Drivers} {oldRacing.RaceEvent}");
+                    Console.WriteLine($" {oldRacing.ManufacturerID,-4} {oldRacing.TeamName} {oldRacing.BasedOutOF}  {oldRacing.Drivers} {oldRacing.RaceEvent}");
                 }
                 else { Console.WriteLine("Invalid ID"); }
             }

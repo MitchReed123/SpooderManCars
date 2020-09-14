@@ -62,7 +62,6 @@ namespace SpooderManCars.Services
                         Name = entity.Garage.Name,
                         Location = entity.Garage.Location
                     },
-                    OwnerID = entity.OwnerID,
                     Make = entity.Make,
                     Model = entity.Model,
                     Year = entity.Year,
@@ -97,7 +96,6 @@ namespace SpooderManCars.Services
                             Name = entity.Garage.Name,
                             Location = entity.Garage.Location
                         },
-                        OwnerID = entity.OwnerID,
                         Make = entity.Make,
                         Model = entity.Model,
                         Year = entity.Year,

@@ -42,7 +42,7 @@ namespace SpooderManCars.Services
                         Id = e.Id,
                         CompanyName = e.CompanyName,
                         Locations = e.Locations,
-                        Cars = e.Cars.Select(r => new CarItem
+                        ManufactureredCars = e.ManufactureredCars.Select(r => new CarItem
                         {
                             Id = r.Id,
                             ManufacturerId = r.ManufacturerId,
@@ -89,7 +89,7 @@ namespace SpooderManCars.Services
                         Id = entity.Id,
                         CompanyName = entity.CompanyName,
                         Locations = entity.Locations,
-                        Cars = entity.Cars.Select(r => new CarItem
+                        ManufactureredCars = entity.ManufactureredCars.Select(r => new CarItem
                         {
                             Id = r.Id,
                             ManufacturerId = r.ManufacturerId,
@@ -114,7 +114,7 @@ namespace SpooderManCars.Services
                             CarType = r.CarType,
                             Transmission = r.Transmission,
                             CarValue = r.CarValue
-                        }),
+                        }).ToList(),
                         Founded = entity.Founded
                     };
             }
