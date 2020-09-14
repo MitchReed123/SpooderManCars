@@ -67,7 +67,7 @@ namespace SpooderManCars.Services
                             CarType = r.CarType,
                             Transmission = r.Transmission,
                             CarValue = r.CarValue
-                        }),
+                        }).ToList(),
                         Founded = e.Founded
                     }
                     ).ToListAsync();

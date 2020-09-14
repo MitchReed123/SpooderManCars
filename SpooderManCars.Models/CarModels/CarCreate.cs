@@ -21,7 +21,7 @@ namespace SpooderManCars.Models.CarModels
         [Required]
         public string Model { get; set; }
         [Required]
-        [RegularExpression(@"\d\d\d\d{4, 4}", ErrorMessage = "Please enter a four digit year")]
+        [RegularExpression(@"\d{4}", ErrorMessage = "Please enter a four digit year")]
         public int Year { get; set; }
         [Required]
         [Display(Name = "Car Type")]

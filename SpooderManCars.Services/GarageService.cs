@@ -39,7 +39,7 @@ namespace SpooderManCars.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var queryT = await ctx.Garages.Select(
+                var queryT = await ctx.Garages.Where(r=> r.CollectorId == _userId).Select(
                     e =>
                     new GarageItem
                     {
