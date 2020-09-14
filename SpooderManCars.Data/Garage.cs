@@ -11,8 +11,10 @@ namespace SpooderManCars.Data
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
         public Guid CollectorId { get; set; }
+        [Required]
         public string Location { get; set; }
         public virtual ICollection<Car> CarCollection { get; set; } 
         public decimal CollectionValue

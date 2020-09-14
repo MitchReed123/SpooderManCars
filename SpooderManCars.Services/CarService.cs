@@ -1,5 +1,7 @@
 ﻿using SpooderManCars.Data;
+using SpooderManCars.Models;
 using SpooderManCars.Models.CarModels;
+using SpooderManCars.Models.ManufacturerModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -42,33 +44,59 @@ namespace SpooderManCars.Services
 
         public async Task<IEnumerable<CarItem>> GetCars()
         {
-                var carList = await _context.Cars.Where(r => r.OwnerID == _userId).Select(r => new CarItem
+                var carList = await _context.Cars.Where(r => r.OwnerID == _userId).Select(entity => new CarItem
                 {
-                    Id = r.Id,
-                    ManufacturerId = r.ManufacturerId,
-                    GarageId = r.GarageId,
-                    OwnerID = r.OwnerID,
-                    Make = r.Make,
-                    Model = r.Model,
-                    Year = r.Year,
-                    CarType = r.CarType,
-                    Transmission = r.Transmission,
-                    CarValue = r.CarValue
+                    Id = entity.Id,
+                    ManufacturerId = entity.ManufacturerId,
+                    Manufacturer = new ManufacturerDetail
+                    {
+                        Id = entity.Manufacturer.Id,
+                        CompanyName = entity.Manufacturer.CompanyName,
+                        Locations = entity.Manufacturer.Locations,
+                        Founded = entity.Manufacturer.Founded
+                    },
+                    GarageId = entity.GarageId,
+                    Garage = new GarageSimpleItem
+                    {
+                        Id = entity.Garage.Id,
+                        Name = entity.Garage.Name,
+                        Location = entity.Garage.Location
+                    },
+                    OwnerID = entity.OwnerID,
+                    Make = entity.Make,
+                    Model = entity.Model,
+                    Year = entity.Year,
+                    CarType = entity.CarType,
+                    Transmission = entity.Transmission,
+                    CarValue = entity.CarValue
                 }).ToListAsync();
             return carList;
         }
 
-        public async Task<Car> GetCarById(int id)
+        public async Task<CarItem> GetCarById(int id)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var entity = await ctx.Cars.SingleAsync(r => r.Id == id);
                 return
-                    new Car
+                    new CarItem
                     {
                         Id = entity.Id,
                         ManufacturerId = entity.ManufacturerId,
+                        Manufacturer = new ManufacturerDetail
+                        {
+                            Id = entity.Manufacturer.Id,
+                            CompanyName = entity.Manufacturer.CompanyName,
+                            Locations = entity.Manufacturer.Locations,
+                            Founded = entity.Manufacturer.Founded
+                        },
                         GarageId = entity.GarageId,
+                        Garage = new GarageSimpleItem
+                        {
+                            Id = entity.Garage.Id,
+                            Name = entity.Garage.Name,
+                            Location = entity.Garage.Location
+                        },
                         OwnerID = entity.OwnerID,
                         Make = entity.Make,
                         Model = entity.Model,

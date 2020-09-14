@@ -379,10 +379,11 @@ namespace SpooderManConsole
             if (response.IsSuccessStatusCode)
             {
                 Console.Clear();
+                Console.WriteLine("Car ID   Make    Model     Year     Car Type     Transmission Size     Manufacturer");
                 List<CarItem> cars = httpClient.GetAsync($"https://{aPIUrl}/api/Car/").Result.Content.ReadAsAsync<List<CarItem>>().Result;
                 foreach (CarItem car in cars)
                 {
-                    Console.WriteLine($"{car.Id,-3} {car.Make,-8} {car.Model,-8} {car.Year,-6} {car.Transmission}");
+                    Console.WriteLine($"{car.Id,-3} {car.Make,-8} {car.Model,-8} {car.Year,-6} {car.CarType, -8} {car.Transmission, -8} {car.Manufacturer.CompanyName}");
                 }
             }
             Console.ReadKey();

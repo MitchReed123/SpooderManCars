@@ -2,6 +2,7 @@
 using SpooderManCars.Models.CarModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -15,7 +16,9 @@ namespace SpooderManCars.Models
         public string Name { get; set; }
 
         public string Location { get; set; }
+        [Display(Name ="Car Collection")]
         public IEnumerable<CarItem> CarCollection { get; set; }
+        [Display(Name = "Collection Value")]
         public decimal CollectionValue
         {
             get
@@ -28,5 +31,12 @@ namespace SpooderManCars.Models
                 return testing;
             }
         }
+    }
+    public class GarageSimpleItem
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+        public string Location { get; set; }
     }
 }
