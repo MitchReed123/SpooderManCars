@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using System.CodeDom;
+using SpooderManCars.Models.ManufacturerModels;
 
 namespace SpooderManCars.Services
 {
@@ -45,44 +46,36 @@ namespace SpooderManCars.Services
                         Id = e.Id,
                         Name = e.Name,
                         Location = e.Location,
-                        CarCollection = e.CarCollection.Select(r => new CarItem
-                        {
+                        CarCollection = e.CarCollection.Select(r => new CarItem {
                             Id = r.Id,
                             ManufacturerId = r.ManufacturerId,
+                            Manufacturer = new ManufacturerDetail
+                            {
+                                Id = r.Manufacturer.Id,
+                                CompanyName = r.Manufacturer.CompanyName,
+                                Locations = r.Manufacturer.Locations,
+                                Founded = r.Manufacturer.Founded
+                            },
                             GarageId = r.GarageId,
+                            Garage = new GarageSimpleItem
+                            {
+                                Id = r.Garage.Id,
+                                Name = r.Garage.Name,
+                                Location = r.Garage.Location
+                            },
                             OwnerID = r.OwnerID,
                             Make = r.Make,
                             Model = r.Model,
                             Year = r.Year,
                             CarType = r.CarType,
                             Transmission = r.Transmission,
-                            CarValue = r.CarValue,
+                            CarValue = r.CarValue
                         }),
                     }
                     ).ToListAsync();
                 return queryT;
             }
         }
-
-        public IEnumerable<CarItem> GetCarItem(IEnumerable<Car> cars)
-        {
-            return cars.Select(c => new CarItem
-            {
-                Id = c.Id,
-                ManufacturerId = c.ManufacturerId,
-                Manufacturer = c.Manufacturer,
-                GarageId = c.GarageId,
-                Garage = c.Garage,
-                OwnerID = c.OwnerID,
-                Make = c.Make,
-                Model = c.Model,
-                Year = c.Year,
-                CarType = c.CarType,
-                Transmission = c.Transmission,
-                CarValue = c.CarValue
-            });
-        }
-
 
         public async Task<GarageItem> GetGarageById(int id)
         {
@@ -102,14 +95,27 @@ namespace SpooderManCars.Services
                         {
                             Id = r.Id,
                             ManufacturerId = r.ManufacturerId,
+                            Manufacturer = new ManufacturerDetail
+                            {
+                                Id = r.Manufacturer.Id,
+                                CompanyName = r.Manufacturer.CompanyName,
+                                Locations = r.Manufacturer.Locations,
+                                Founded = r.Manufacturer.Founded
+                            },
                             GarageId = r.GarageId,
+                            Garage = new GarageSimpleItem
+                            {
+                                Id = r.Garage.Id,
+                                Name = r.Garage.Name,
+                                Location = r.Garage.Location
+                            },
                             OwnerID = r.OwnerID,
                             Make = r.Make,
                             Model = r.Model,
                             Year = r.Year,
                             CarType = r.CarType,
                             Transmission = r.Transmission,
-                            CarValue = r.CarValue,
+                            CarValue = r.CarValue
                         }).ToList()
                     };
                 return garageItem;

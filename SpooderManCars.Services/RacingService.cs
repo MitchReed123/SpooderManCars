@@ -47,7 +47,7 @@ namespace SpooderManCars.Services
                     Id = r.Id,
                     BasedOutOF = r.BasedOutOF,
                     Drivers = r.Drivers,
-                    Manufacturer = new RacingViewManufacturerListItem
+                    Manufacturer = new ManufacturerDetail
                     {
                         Id = r.Manufacturer.Id,
                         CompanyName = r.Manufacturer.CompanyName,
@@ -74,7 +74,7 @@ namespace SpooderManCars.Services
                         Id = entity.Id,
                         BasedOutOF = entity.BasedOutOF,
                         Drivers = entity.Drivers,
-                        Manufacturer = new RacingViewManufacturerListItem
+                        Manufacturer = new ManufacturerDetail
                         {
                             Id = entity.Manufacturer.Id,
                             CompanyName = entity.Manufacturer.CompanyName,

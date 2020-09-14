@@ -1,6 +1,5 @@
 ﻿using SpooderManCars.Data;
-
-
+using SpooderManCars.Models;
 using SpooderManCars.Models.CarModels;
 
 using SpooderManCars.Models.ManufacturerModels;
@@ -47,13 +46,27 @@ namespace SpooderManCars.Services
                         {
                             Id = r.Id,
                             ManufacturerId = r.ManufacturerId,
+                            Manufacturer = new ManufacturerDetail
+                            {
+                                Id = r.Manufacturer.Id,
+                                CompanyName = r.Manufacturer.CompanyName,
+                                Locations = r.Manufacturer.Locations,
+                                Founded = r.Manufacturer.Founded
+                            },
                             GarageId = r.GarageId,
+                            Garage = new GarageSimpleItem
+                            {
+                                Id = r.Garage.Id,
+                                Name = r.Garage.Name,
+                                Location = r.Garage.Location
+                            },
                             OwnerID = r.OwnerID,
                             Make = r.Make,
                             Model = r.Model,
                             Year = r.Year,
                             CarType = r.CarType,
-                            Transmission = r.Transmission
+                            Transmission = r.Transmission,
+                            CarValue = r.CarValue
                         }),
                         Founded = e.Founded
                     }
@@ -80,13 +93,27 @@ namespace SpooderManCars.Services
                         {
                             Id = r.Id,
                             ManufacturerId = r.ManufacturerId,
+                            Manufacturer = new ManufacturerDetail
+                            {
+                                Id = r.Manufacturer.Id,
+                                CompanyName = r.Manufacturer.CompanyName,
+                                Locations = r.Manufacturer.Locations,
+                                Founded = r.Manufacturer.Founded
+                            },
                             GarageId = r.GarageId,
+                            Garage = new GarageSimpleItem
+                            {
+                                Id = r.Garage.Id,
+                                Name = r.Garage.Name,
+                                Location = r.Garage.Location
+                            },
                             OwnerID = r.OwnerID,
                             Make = r.Make,
                             Model = r.Model,
                             Year = r.Year,
                             CarType = r.CarType,
-                            Transmission = r.Transmission
+                            Transmission = r.Transmission,
+                            CarValue = r.CarValue
                         }),
                         Founded = entity.Founded
                     };

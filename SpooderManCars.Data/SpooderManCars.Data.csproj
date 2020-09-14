@@ -112,6 +112,10 @@
     <Compile Include="Migrations\202009111839353_UndidRacing.Designer.cs">
       <DependentUpon>202009111839353_UndidRacing.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009141439134_Added property attributes.cs" />
+    <Compile Include="Migrations\202009141439134_Added property attributes.Designer.cs">
+      <DependentUpon>202009141439134_Added property attributes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Racing.cs" />
@@ -181,6 +185,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009111839353_UndidRacing.resx">
       <DependentUpon>202009111839353_UndidRacing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009141439134_Added property attributes.resx">
+      <DependentUpon>202009141439134_Added property attributes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

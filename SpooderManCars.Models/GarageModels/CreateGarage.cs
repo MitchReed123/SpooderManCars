@@ -10,7 +10,9 @@ namespace SpooderManCars.Models
 {
     public class CreateGarage
     {
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Location { get; set; }
     }
 }
