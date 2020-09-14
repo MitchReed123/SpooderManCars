@@ -47,6 +47,7 @@ namespace SpooderManCars.Services
                 var carList = await _context.Cars.Where(r => r.OwnerID == _userId).Select(entity => new CarItem
                 {
                     Id = entity.Id,
+                    OwnerID = _userId,
                     ManufacturerId = entity.ManufacturerId,
                     Manufacturer = new ManufacturerDetail
                     {
@@ -62,7 +63,6 @@ namespace SpooderManCars.Services
                         Name = entity.Garage.Name,
                         Location = entity.Garage.Location
                     },
-                    OwnerID = entity.OwnerID,
                     Make = entity.Make,
                     Model = entity.Model,
                     Year = entity.Year,
@@ -77,11 +77,12 @@ namespace SpooderManCars.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = await ctx.Cars.SingleAsync(r => r.Id == id);
+                var entity = await ctx.Cars.SingleAsync(r => r.Id == id && r.OwnerID == _userId);
                 return
                     new CarItem
                     {
                         Id = entity.Id,
+                        OwnerID = _userId,
                         ManufacturerId = entity.ManufacturerId,
                         Manufacturer = new ManufacturerDetail
                         {
@@ -97,7 +98,6 @@ namespace SpooderManCars.Services
                             Name = entity.Garage.Name,
                             Location = entity.Garage.Location
                         },
-                        OwnerID = entity.OwnerID,
                         Make = entity.Make,
                         Model = entity.Model,
                         Year = entity.Year,
