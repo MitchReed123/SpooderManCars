@@ -1,6 +1,5 @@
 ﻿using SpooderManCars.Data;
-
-
+using SpooderManCars.Models;
 using SpooderManCars.Models.CarModels;
 
 using SpooderManCars.Models.ManufacturerModels;
@@ -43,18 +42,32 @@ namespace SpooderManCars.Services
                         Id = e.Id,
                         CompanyName = e.CompanyName,
                         Locations = e.Locations,
-                        Cars = e.Cars.Select(r => new CarItem
+                        ManufactureredCars = e.ManufactureredCars.Select(r => new CarItem
                         {
                             Id = r.Id,
                             ManufacturerId = r.ManufacturerId,
+                            Manufacturer = new ManufacturerDetail
+                            {
+                                Id = r.Manufacturer.Id,
+                                CompanyName = r.Manufacturer.CompanyName,
+                                Locations = r.Manufacturer.Locations,
+                                Founded = r.Manufacturer.Founded
+                            },
                             GarageId = r.GarageId,
+                            Garage = new GarageSimpleItem
+                            {
+                                Id = r.Garage.Id,
+                                Name = r.Garage.Name,
+                                Location = r.Garage.Location
+                            },
                             OwnerID = r.OwnerID,
                             Make = r.Make,
                             Model = r.Model,
                             Year = r.Year,
                             CarType = r.CarType,
-                            Transmission = r.Transmission
-                        }),
+                            Transmission = r.Transmission,
+                            CarValue = r.CarValue
+                        }).ToList(),
                         Founded = e.Founded
                     }
                     ).ToListAsync();
@@ -76,18 +89,32 @@ namespace SpooderManCars.Services
                         Id = entity.Id,
                         CompanyName = entity.CompanyName,
                         Locations = entity.Locations,
-                        Cars = entity.Cars.Select(r => new CarItem
+                        ManufactureredCars = entity.ManufactureredCars.Select(r => new CarItem
                         {
                             Id = r.Id,
                             ManufacturerId = r.ManufacturerId,
+                            Manufacturer = new ManufacturerDetail
+                            {
+                                Id = r.Manufacturer.Id,
+                                CompanyName = r.Manufacturer.CompanyName,
+                                Locations = r.Manufacturer.Locations,
+                                Founded = r.Manufacturer.Founded
+                            },
                             GarageId = r.GarageId,
+                            Garage = new GarageSimpleItem
+                            {
+                                Id = r.Garage.Id,
+                                Name = r.Garage.Name,
+                                Location = r.Garage.Location
+                            },
                             OwnerID = r.OwnerID,
                             Make = r.Make,
                             Model = r.Model,
                             Year = r.Year,
                             CarType = r.CarType,
-                            Transmission = r.Transmission
-                        }),
+                            Transmission = r.Transmission,
+                            CarValue = r.CarValue
+                        }).ToList(),
                         Founded = entity.Founded
                     };
             }

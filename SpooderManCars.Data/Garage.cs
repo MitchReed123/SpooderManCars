@@ -11,24 +11,23 @@ namespace SpooderManCars.Data
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
         public Guid CollectorId { get; set; }
+        [Required]
         public string Location { get; set; }
-        public ICollection<Car> CarCollection { get; set; }
+        public virtual ICollection<Car> CarCollection { get; set; } 
         public decimal CollectionValue
         {
             get
             {
-                var cars = CarCollection;
-
-                decimal total = 0;
-                foreach (Car car in cars)
+                decimal testing = 0m;
+                foreach (var item in CarCollection)
                 {
-                    total += car.CarValue;
+                    testing += item.CarValue;
                 }
-                return total;
+                return testing;
             }
-            set { }
         }
     }
 }

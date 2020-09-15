@@ -8,6 +8,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -19,14 +20,15 @@ namespace SpooderManCars.WebApi.Controllers
 
         private RacingService CreateRaceService()
         {
-            var userId = Guid.Parse(User.Identity.GetUserId());
-            var raceService = new RacingService(userId);
+            //var userId = Guid.Parse(User.Identity.GetUserId());
+            var raceService = new RacingService();
             return raceService;
         }
         [HttpGet]
         public async Task<IHttpActionResult> GetAllTeams()
         {
-            List<Racing> racings = await _content.Racings.ToListAsync();
+            RacingService racingService = CreateRaceService();
+            var racings = await racingService.GetRaces();
             return Ok(racings);
         }
         [HttpPost]
@@ -47,24 +49,12 @@ namespace SpooderManCars.WebApi.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> GetRaces(int id)
         {
-            var service = CreateRaceService();
-
-            List<Racing> racings = await _content.Racings.ToListAsync();
-
-            foreach (Racing item in racings)
-            {
-                if (item.Id == id)
-                {
-                    await service.GetTeamById(id);
-                    return Ok();
-                }
-            }
-
+            var racing = await CreateRaceService().GetTeamById(id);
+            if(racing != null) { return Ok(racing); }
             return NotFound();
-
         }
         [HttpPut]
-        public async Task<IHttpActionResult> UpdateTeams([FromUri] int id, [FromBody] Racing model)
+        public async Task<IHttpActionResult> UpdateTeams([FromUri] int id, [FromBody] RacingEdit model)
         {
             if (ModelState.IsValid)
             {
