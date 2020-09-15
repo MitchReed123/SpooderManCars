@@ -25,6 +25,9 @@ namespace SpooderManCars.WebApi.Controllers
             var garageService = new GarageService(userId);
             return garageService;
         }
+        /// <summary>
+        /// Requires Name/Location to Create a Garage
+        /// </summary>
         [HttpPost]
         public async Task<IHttpActionResult> Post(CreateGarage garage)
         {
@@ -37,6 +40,9 @@ namespace SpooderManCars.WebApi.Controllers
 
             return Ok(garage);
         }
+        /// <summary>
+        /// Looks up all Garages in the database
+        /// </summary>
         [HttpGet]
         public async Task<IHttpActionResult> Get()
         {
@@ -44,6 +50,9 @@ namespace SpooderManCars.WebApi.Controllers
             var garages = await garageService.GetAllGarages();
             return Ok(garages);
         }
+        /// <summary>
+        /// View Garage information by Id
+        /// </summary>
         [HttpGet]
         public async Task<IHttpActionResult> Get(int id)
         {
@@ -51,6 +60,9 @@ namespace SpooderManCars.WebApi.Controllers
             var garage = await garageService.GetGarageById(id);
             return Ok(garage);
         }
+        /// <summary>
+        /// Updates Garage based on what is in the body.
+        /// </summary>
         [HttpPut]
         public async Task<IHttpActionResult> Put(GarageEdit garage)
         {
@@ -64,6 +76,9 @@ namespace SpooderManCars.WebApi.Controllers
 
             return Ok();
         }
+        /// <summary>
+        /// Deletes a Garage based on the ID given
+        /// </summary>
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(int id)
         {

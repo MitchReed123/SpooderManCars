@@ -24,6 +24,10 @@ namespace SpooderManCars.WebApi.Controllers
             var raceService = new RacingService();
             return raceService;
         }
+        /// <summary>
+        /// Looks up all Racing Teams in the database
+        /// </summary>
+        /// <returns>All Racing Teams in the database with all the properties</returns>
         [HttpGet]
         public async Task<IHttpActionResult> GetAllTeams()
         {
@@ -31,6 +35,10 @@ namespace SpooderManCars.WebApi.Controllers
             var racings = await racingService.GetRaces();
             return Ok(racings);
         }
+        /// <summary>
+        /// Requires a Manufacturer to Create a Racing Team
+        /// </summary>
+        /// <returns>A new object based on all body elements that the user gave to the program</returns>
         [HttpPost]
         public async Task<IHttpActionResult> PostAsync(RacingCreate race)
         {
@@ -46,13 +54,21 @@ namespace SpooderManCars.WebApi.Controllers
 
 
         }
+        /// <summary>
+        /// View Racing Team information by Id
+        /// </summary>
+        /// <returns>A specific object by the Id given by the user</returns>
         [HttpGet]
         public async Task<IHttpActionResult> GetRaces(int id)
         {
             var racing = await CreateRaceService().GetTeamById(id);
-            if(racing != null) { return Ok(racing); }
+            if (racing != null) { return Ok(racing); }
             return NotFound();
         }
+        /// <summary>
+        /// Updates the Racing Team based on what ID the user gave in the URI and what is in the body
+        /// </summary>
+        /// <returns>A Updated Object the user submitted</returns>
         [HttpPut]
         public async Task<IHttpActionResult> UpdateTeams([FromUri] int id, [FromBody] RacingEdit model)
         {
@@ -72,6 +88,10 @@ namespace SpooderManCars.WebApi.Controllers
             return BadRequest();
 
         }
+        /// <summary>
+        /// Deletes a Racing team based on what Id is givin in the URI
+        /// </summary>
+        /// <returns>A deleted Object</returns>
         [HttpDelete]
         public async Task<IHttpActionResult> DeleteTeams([FromUri] int id)
         {
