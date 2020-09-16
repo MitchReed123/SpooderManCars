@@ -11,9 +11,12 @@ namespace SpooderManCars.Data
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public string CompanyName { get; set; }
+        [Required]
         public string Locations { get; set; }
-        public ICollection<Car> Cars { get; set; }
+        public virtual ICollection<Car> ManufactureredCars { get; set; }
+        [Required]
         public DateTime Founded { get; set; }
     }
 }

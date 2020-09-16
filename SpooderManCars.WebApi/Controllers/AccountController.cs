@@ -320,6 +320,10 @@ namespace SpooderManCars.WebApi.Controllers
         }
 
         // POST api/Account/Register
+        /// <summary>
+        /// Creates a User using properties 
+        /// </summary>
+        /// <returns>A User</returns>
         [AllowAnonymous]
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)

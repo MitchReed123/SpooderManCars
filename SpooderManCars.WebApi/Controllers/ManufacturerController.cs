@@ -24,14 +24,20 @@ namespace SpooderManCars.WebApi.Controllers
             var manufacturerService = new ManufacturerService();
             return manufacturerService;
         }
-
+        /// <summary>
+        /// Looks up all Manufacturers in the database
+        /// </summary>
+        [HttpGet]
         public async Task<IHttpActionResult> Get()
         {
             ManufacturerService manufacturerService = CreateManufacturerService();
             var manufacturers = await manufacturerService.GetManufacturer();
             return Ok(manufacturers);
         }
-
+        /// <summary>
+        /// Creates a Manufacturer 
+        /// </summary>
+        [HttpPost]
         public async Task<IHttpActionResult> PostAsync(ManufacturerCreate manufacturer)
         {
             var service = CreateManufacturerService();
@@ -44,14 +50,20 @@ namespace SpooderManCars.WebApi.Controllers
 
             return Ok(manufacturer);
         }
-
+        /// <summary>
+        /// View Manufacturer information by Id
+        /// </summary>
+        [HttpGet]
         public async Task<IHttpActionResult> Get(int id)
         {
             ManufacturerService manufacturerService = CreateManufacturerService();
             var manufacturer = await manufacturerService.GetManufacturerById(id);
             return Ok(manufacturer);
         }
-
+        /// <summary>
+        /// Updates Manufacturer based on what is in the body.
+        /// </summary>
+        [HttpPut]
         public async Task<IHttpActionResult> Put(ManufacturerEdit manufacturer)
         {
             if (!ModelState.IsValid)
@@ -63,8 +75,11 @@ namespace SpooderManCars.WebApi.Controllers
 
             return Ok(manufacturer);
         }
-
-        public async Task<IHttpActionResult> Delete (int id)
+        /// <summary>
+        /// Deletes a Manufacturer based on the ID given
+        /// </summary>
+        [HttpDelete]
+        public async Task<IHttpActionResult> Delete(int id)
         {
             var service = CreateManufacturerService();
             if (!(await service.DeleteManufacturer(id)))
@@ -72,8 +87,8 @@ namespace SpooderManCars.WebApi.Controllers
             return Ok();
         }
 
-        
 
-       
+
+
     }
 }

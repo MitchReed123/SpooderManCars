@@ -11,15 +11,19 @@ namespace SpooderManCars.Models.CarModels
     public class CarEdit
     {
         [Required]
-        public int Id { get; }
+        public int Id { get; set; }
+        [Display(Name = "Manufacturer Id")]
         public int ManufacturerId { get; set; }
+        [Display(Name = "Garage Id")]
         public int GarageId { get; set; }
-
         public string Make { get; set; }
         public string Model { get; set; }
+        [RegularExpression(@"\d{4}", ErrorMessage = "Please enter a four digit year")]
         public int Year { get; set; }
+        [Display(Name = "Car Type")]
         public CarType CarType { get; set; }
         public string Transmission { get; set; }
+        [Display(Name = "Value")]
         public decimal CarValue { get; set; }
     }
 }

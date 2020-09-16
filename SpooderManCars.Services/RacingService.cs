@@ -1,4 +1,5 @@
 ﻿using SpooderManCars.Data;
+using SpooderManCars.Models.ManufacturerModels;
 using SpooderManCars.Models.RacingModels;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,10 @@ namespace SpooderManCars.Services
 {
     public class RacingService
     {
-        private readonly ApplicationDbContext _context;
-        private readonly Guid _userId;
-        public RacingService(Guid UserId)
+        private readonly ApplicationDbContext _context = new ApplicationDbContext();
+        public RacingService()
         {
-            _userId = UserId;
+           
         }
 
         public async Task<bool> CreateATeam(RacingCreate model)
@@ -24,10 +24,8 @@ namespace SpooderManCars.Services
             {
                 BasedOutOF = model.BasedOutOF,
                 Drivers = model.Drivers,
-                Manufacturer = model.Manufacturer,
                 RaceEvent = model.RaceEvent,
                 TeamName = model.TeamName,
-                Victories = model.Victories,
                 ManufacturerID = model.ManufacturerID
             };
 
@@ -40,43 +38,57 @@ namespace SpooderManCars.Services
 
         public async Task<List<RacingItem>> GetRaces()
         {
-            var entityList = await _context.Racings.ToListAsync();
-
-            var racingList = entityList.Select(r => new RacingItem
+            using (var ctx = new ApplicationDbContext())
             {
-                Id = r.Id,
-                BasedOutOF = r.BasedOutOF,
-                Drivers = r.Drivers,
-                Manufacturer = r.Manufacturer,
-                ManufacturerID = r.ManufacturerID,
-                RaceEvent = r.RaceEvent,
-                TeamName = r.TeamName,
-                Victories = r.Victories,
-            }).ToList();
+                var racingList = await ctx.Racings.Select(
+                r =>
+                new RacingItem
+                {
+                    Id = r.Id,
+                    BasedOutOF = r.BasedOutOF,
+                    Drivers = r.Drivers,
+                    Manufacturer = new ManufacturerDetail
+                    {
+                        Id = r.Manufacturer.Id,
+                        CompanyName = r.Manufacturer.CompanyName,
+                        Locations = r.Manufacturer.Locations,
+                        Founded = r.Manufacturer.Founded
+                    },
+                    ManufacturerID = r.ManufacturerID,
+                    RaceEvent = r.RaceEvent,
+                    TeamName = r.TeamName,
+                }).ToListAsync();
 
             return racingList;
+            }
         }
 
-        public async Task<Racing> GetTeamById(int id)
+        public async Task<RacingItem> GetTeamById(int id)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var entity = await ctx.Racings.SingleAsync(r => r.Id == id);
                 return
-                    new Racing
+                    new RacingItem
                     {
+                        Id = entity.Id,
                         BasedOutOF = entity.BasedOutOF,
                         Drivers = entity.Drivers,
-                        Id = entity.Id,
+                        Manufacturer = new ManufacturerDetail
+                        {
+                            Id = entity.Manufacturer.Id,
+                            CompanyName = entity.Manufacturer.CompanyName,
+                            Locations = entity.Manufacturer.Locations,
+                            Founded = entity.Manufacturer.Founded
+                        },
                         ManufacturerID = entity.ManufacturerID,
                         RaceEvent = entity.RaceEvent,
                         TeamName = entity.TeamName,
-                        Victories = entity.Victories
                     };
             }
         }
 
-        public async Task<bool> UpdateTeam(Racing model)
+        public async Task<bool> UpdateTeam(RacingEdit model)
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -87,7 +99,6 @@ namespace SpooderManCars.Services
                 entity.Drivers = model.Drivers;
                 entity.RaceEvent = model.RaceEvent;
                 entity.TeamName = model.TeamName;
-                entity.Victories = model.Victories;
 
                 return await ctx.SaveChangesAsync() == 1;
             }

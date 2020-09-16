@@ -16,11 +16,13 @@ namespace SpooderManCars.Data
         [ForeignKey(nameof(Manufacturer))]
         public int ManufacturerID { get; set; }
         public virtual Manufacturer Manufacturer { get; set; }
-
+        [Required]
         public string TeamName { get; set; }
+        [Required]
         public string BasedOutOF { get; set; }
-        public List<int> Victories { get; set; } = new List<int>();
+        [Required]
         public string Drivers { get; set; }
+        [Required]
         public RaceEvent RaceEvent { get; set; }
         
     }

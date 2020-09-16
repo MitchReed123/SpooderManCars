@@ -11,6 +11,7 @@ namespace SpooderManCars.Models.ManufacturerModels
     {
         [Required]
         public int Id { get; set; }
+        [Display(Name = "Company Name")]
         public string CompanyName { get; set; }
         public string Locations { get; set; }
         public DateTime Founded { get; set; }
