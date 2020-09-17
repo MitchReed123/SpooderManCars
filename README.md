@@ -39,10 +39,7 @@ SpooderMan Cars is open source with a [public repository][spooder]
 ### Database Interactions
 - When making cars you'll need a previously existing Manufacturer and Garage to link to the car
 
-### Development
-
-
-### Contributers
+## Contributers
 - Chris Blinde
 - Jacob Brown
 - Nick Coon
