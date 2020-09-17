@@ -31,12 +31,12 @@ Version 1.0 Released 09/17/20
 SpooderMan Cars is open source with a [public repository][spooder]
  on GitHub.
 
-### Running Instructions
+## Running Instructions
 - Clone solution from git repository and open in Visual Studio
 - Select SpooderManCars.WebAPI and SpooderManCarsConsole as startup projects
 - Run the application and follow menu prompts
 
-## Database Interactions
+### Database Interactions
 - When making cars you'll need a previously existing Manufacturer and Garage to link to the car
 
 ### Development
